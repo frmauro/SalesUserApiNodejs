@@ -1,4 +1,3 @@
-//const user = require("../models/user");
   module.exports.index = function(application, req, res){
     var db = application.models.user;
     //console.log(db);
@@ -11,8 +10,6 @@
         res.json(result);
       }
     });
-
-    //return res.json("GET");
   }
 
 
@@ -30,17 +27,37 @@
     //console.log(db);
     var users = db.Mongoose.model('users', db.UserSchema, 'users');
     //console.log(users);
-    var user = new users({ name: name, email: email, password: password, status: status, token: '99999999999', userType: userType });
 
-          user.save(function (err) {
+    users.find({email: email}, function(err, result){
             if (err) {
-                console.log("Error! " + err.message);
-                return err;
-            }
-            else {
-                //console.log(result);
-                res.json(result);
-            }
-        });
+              console.log("Error! " + err.message);
+              return err;
+          }
+          else {
+              //console.log(result);
+              if (result.length === 0){
+
+                    var user = new users({ name: name, email: email, password: password, status: status, token: '99999999999', userType: userType });
+
+                          user.save(function (err) {
+                            if (err) {
+                                console.log("Error! " + err.message);
+                                return err;
+                            }
+                            else {
+                                //console.log(result);
+                                res.json(result);
+                            }
+                        });
+
+                //res.json("user not exists");
+              }else{
+                res.json("user exists");
+              }
+
+          }
+
+    })
+
   
   }
