@@ -1,5 +1,5 @@
 var db = {
-    uri : "mongodb://localhost:27017/salesUser"
+    uri : "mongodb://localhost:27017/ApiSalesUser"
 }
 
 
