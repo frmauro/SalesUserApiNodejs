@@ -1,22 +1,46 @@
+//const user = require("../models/user");
   module.exports.index = function(application, req, res){
-    //var connection = application.config.dbConnection();
+    var db = application.models.user;
+    //console.log(db);
+    var users = db.Mongoose.model('users', db.UserSchema, 'users');
 
-    return res.json("GET");
-    //var noticiasModel = new app.app.models.noticiasModel(connection);
-  
-    //noticiasModel.getNoticias(function(error, result){
-      //res.render("noticias/noticias", {noticias: result});
-    //});
+    users.find({}, function(err, result) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json(result);
+      }
+    });
+
+    //return res.json("GET");
   }
 
 
   module.exports.create = function(application, req, res){
-    //var connection = application.config.dbConnection();
 
-    return res.json("POST");
-    //var noticiasModel = new app.app.models.noticiasModel(connection);
+    var name = req.body.name;
+    var email = req.body.email;
+    var password = req.body.password;
+    var userType = req.body.userType;
+    var status = req.body.status;
+
+    var result = "POST 200OK - name: " + name + " email: " + email + " password: " + password + "  userType: " + userType + " status: " + status;
+
+    var db = application.models.user;
+    //console.log(db);
+    var users = db.Mongoose.model('users', db.UserSchema, 'users');
+    //console.log(users);
+    var user = new users({ name: name, email: email, password: password, status: status, token: '99999999999', userType: userType });
+
+          user.save(function (err) {
+            if (err) {
+                console.log("Error! " + err.message);
+                return err;
+            }
+            else {
+                //console.log(result);
+                res.json(result);
+            }
+        });
   
-    //noticiasModel.getNoticias(function(error, result){
-      //res.render("noticias/noticias", {noticias: result});
-    //});
   }

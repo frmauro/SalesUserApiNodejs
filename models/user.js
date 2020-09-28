@@ -18,24 +18,6 @@ module.exports = function(application) {
   );
   
 
-  return mongoose.model("Users", UserSchema);
-
+  return { Mongoose: mongoose, UserSchema: UserSchema };
 
 }
-
-//var db = require('config/mongodbConnection');
-//mongoose.connect(db.uri, { useNewUrlParser: true });
-
-// const UserSchema = new mongoose.Schema(
-//   {
-//     name: { type: String, required: true },
-//     email: { type: String, required: true },
-//     password: { type: String, required: true },
-//     token: { type: String, required: true },
-//     userType:  {  type: String, required: true },
-//     status: { type: String, required: true }
-//   },
-//   { collection: 'usercollection' }
-// );
-
-// module.exports = mongoose.model("Users", UserSchema);
