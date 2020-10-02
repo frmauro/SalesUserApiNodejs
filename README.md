@@ -1,0 +1,1 @@
+docker run --name salesusernode -d -p 8088:8088 --link mongodb salesapiusernode

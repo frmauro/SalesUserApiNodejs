@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 module.exports = function(application) {
 
-  var db = { uri : "mongodb://localhost:27017/ApiSalesUser" };
+  var db = { uri : "mongodb://mongodb:27017/ApiSalesUser" };
   mongoose.connect(db.uri, { useNewUrlParser: true });
 
   const UserSchema = new mongoose.Schema(
