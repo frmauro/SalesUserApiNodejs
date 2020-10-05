@@ -61,3 +61,40 @@
 
   
   }
+
+
+  module.exports.update = function(application, req, res){
+
+    var _id = req.body._id;
+    var name = req.body.name;
+    var email = req.body.email;
+    var password = req.body.password;
+    var userType = req.body.userType;
+    var status = req.body.status;
+
+    var db = application.models.user;
+    //console.log(db);
+    var users = db.Mongoose.model('users', db.UserSchema, 'users');
+            //console.log(result);
+            users.findByIdAndUpdate(
+              // the id of the item to find
+              _id,
+              
+              // the change to be made. Mongoose will smartly combine your existing 
+              // document with this change, which allows for partial updates too
+              req.body,
+              
+              // an option that asks mongoose to return the updated version 
+              // of the document instead of the pre-updated one.
+              {new: true},
+              
+              // the callback function
+              (err, user) => {
+              // Handle any possible database errors
+                  if (err) return res.status(500).send(err);
+                  return res.json(user);
+              }
+          )
+  
+  }
+

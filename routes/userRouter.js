@@ -7,4 +7,10 @@ module.exports = function(application) {
         return application.controllers.userController.create(application, req, res);
     });
 
+
+    application.put('/', function(req, res){
+        return application.controllers.userController.update(application, req, res);
+    });
+
+
 }
