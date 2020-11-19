@@ -1,9 +1,14 @@
 module.exports = function(application) {
+
      application.get('/', function(req, res){
          return application.controllers.userController.index(application, req, res);
      });
 
-     application.post('/', function(req, res){
+     application.get('/user', function(req, res){
+        return application.controllers.userController.findByEmailAndPassword(application, req, res);
+    });
+
+    application.post('/', function(req, res){
         return application.controllers.userController.create(application, req, res);
     });
 
@@ -11,6 +16,4 @@ module.exports = function(application) {
     application.put('/', function(req, res){
         return application.controllers.userController.update(application, req, res);
     });
-
-
 }

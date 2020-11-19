@@ -13,6 +13,34 @@
   }
 
 
+  module.exports.findByEmailAndPassword = function(application, req, res){
+    
+      var email = req.body.email;
+      var password = req.body.password;
+      var db = application.models.user;
+      var users = db.Mongoose.model('users', db.UserSchema, 'users');
+
+      users.find({email: email, password: password}, function(err, result){
+                      if (err) {
+                        console.log("Error! " + err.message);
+                        return err;
+                    }
+                    else {
+                        //console.log(result);
+                        if (result.length === 0){
+                          //console.log(result);
+                          res.json("user not exists");
+                        }else{
+                          res.json(result);
+                        }
+                    }
+          })
+  }
+
+
+
+
+
   module.exports.create = function(application, req, res){
 
     var name = req.body.name;
