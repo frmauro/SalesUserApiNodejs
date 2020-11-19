@@ -1,3 +1,6 @@
+## command for build image 
+docker build --tag salesapiusernode .
+
 ## command for run userapi container 
 docker run --name salesusernode -d -p 8088:8088 --link mongodb salesapiusernode
 
