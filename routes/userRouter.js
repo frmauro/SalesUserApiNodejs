@@ -4,7 +4,7 @@ module.exports = function(application) {
          return application.controllers.userController.index(application, req, res);
      });
 
-     application.get('/user', function(req, res){
+     application.post('/user', function(req, res){
         return application.controllers.userController.findByEmailAndPassword(application, req, res);
     });
 
