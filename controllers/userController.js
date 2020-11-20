@@ -1,4 +1,7 @@
-  module.exports.index = function(application, req, res){
+let jwt = require('jsonwebtoken');
+let jwtSecretKey = require('../config/jwtSecretKey');
+
+module.exports.index = function(application, req, res){
     var db = application.models.user;
     //console.log(db);
     var users = db.Mongoose.model('users', db.UserSchema, 'users');
@@ -31,6 +34,8 @@
                           //console.log(result);
                           res.json("user not exists");
                         }else{
+                          let token = jwt.sign({password: password},  jwtSecretKey.secret,{ expiresIn: '1h' });
+                          result[0].token = token;
                           res.json(result);
                         }
                     }
