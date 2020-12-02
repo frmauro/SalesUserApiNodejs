@@ -43,7 +43,7 @@
                 }
             }
          },
-         "/user": {
+         "/postUser": {
             "post": {
                 "tags": [
                 "Users"
@@ -55,7 +55,7 @@
                         "in": "body",
                         "description": "User that we want to create",
                         "schema": {
-                        "$ref": "#/definitions/User"
+                        "$ref": "/"
                     }
                   }
                 ],
@@ -71,7 +71,71 @@
                 }
               }
             }
-           }
+           },
+           "/user": {
+            "post": {
+                    "tags": [
+                    "Users"
+                    ],
+                "description": "autenticate user by email and password",
+                "parameters": [
+                            {
+                        "name": "user",
+                        "in": "body",
+                        "description": "autenticate user by email and password",
+                        "schema": {
+                        "$ref": "/"
+                    }
+                  }
+                ],
+                "produces": [
+                "application/json"
+                ],
+            "responses": {
+              "200": {
+                "description": "user exists",
+                    "schema": {
+                    "$ref": "#/definitions/User"
+                    }
+                }
+              }
+            }
+           },
+           "/user/{id}": {
+                "parameters": [
+                        {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of user that we want to find",
+                        "type": "integer"
+                        }
+                ],
+            "put": {
+            "summary": "Update user with give ID",
+            "tags": [
+            "Users"
+            ],
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "body",
+                        "description": "User with new values of properties",
+                        "schema": {
+                        "$ref": "#/definitions/updateUser"
+                    }
+                    }
+                ],
+            "responses": {
+                "200": {
+                    "description": "User is updated",
+                        "schema": {
+                        "$ref": "#/definitions/User"
+                        }
+                }
+              }
+            }
+         }
         },
          "definitions": {
             "User": {
