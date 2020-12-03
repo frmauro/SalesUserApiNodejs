@@ -51,20 +51,12 @@
                 "description": "Create new user in system",
                 "parameters": [
                        {
-                            "name": "name",
+                            "name": "user",
                             "in": "body",
-                            "description": "name of user",
+                            "description": "user object",
                             "schema": {
                             "$ref": "/"
                             }
-                      },
-                      {
-                        "name": "email",
-                        "in": "body",
-                        "description": "email of user",
-                        "schema": {
-                        "$ref": "/"
-                        }
                       }
 
                 ],
