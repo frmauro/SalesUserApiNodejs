@@ -2,10 +2,15 @@ var mongoose = require('mongoose');
 
 module.exports = function(application) {
 
-  //var db = { uri : "mongodb://mongodb:27017/ApiSalesUser" };
-  var db = { uri : "mongodb://dbmongouser:27017/ApiSalesUser" };
+  // enviroment without docker compose
+  var db = { uri : "mongodb://mongodb:27017/ApiSalesUser" };
+  
+  // enviroment docker compose
+  //var db = { uri : "mongodb://dbmongouser:27017/ApiSalesUser" };
+
+  // local enviroment 
   //var db = { uri : "mongodb://localhost:27017/ApiSalesUser" };
-  mongoose.connect(db.uri, { useNewUrlParser: true });
+  mongoose.connect(db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
   const UserSchema = new mongoose.Schema(
     {
