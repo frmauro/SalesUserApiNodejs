@@ -9,3 +9,6 @@ docker run --name mongodb -p 27017:27017 -d mongo
 
 ## url to swagger doc
 http://localhost:8088/api-docs/
+
+## curl test POST
+curl -X POST -H "Content-Type: application/json" -d '{"name": "Francisco Mauro", "email": "frmauro8@gmail.com", "password": "123", "userType": "administrator", "status": "active"}'  http://localhost:8088/
