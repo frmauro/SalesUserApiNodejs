@@ -2,6 +2,47 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var consign = require('consign');
 var cors = require('cors');
+
+
+
+
+// GRPC *******************************************************************
+
+const PROTO_PATH = "./user.proto";
+var grpc = require('grpc');
+var protoLoader = require("@grpc/proto-loader");
+
+var packageDefinition = protoLoader.loadSync(PROTO_PATH, {
+     keepCase: true,
+     longs: String,
+     enums: String,
+     arrays: true
+ });
+
+ const users = [
+     { id: '1', name: 'Francisco Mauro', password: '123', token: '', userType: 'administrator', status: 'Active'  },
+     { id: '2', name: 'João Mauro', password: '123', token: '', userType: 'client', status: 'Active' }
+ ]
+ 
+var userProto = grpc.loadPackageDefinition(packageDefinition);
+const server = new grpc.Server();
+
+server.addService(userProto.UserService.service, {
+     GetAll: (_, callback) => {
+         callback(null, users)
+     },
+ })
+
+server.bind('0.0.0.0:50051', grpc.ServerCredentials.createInsecure())
+console.log('Server running at http://0.0.0.0:50051')
+server.start()
+
+ // GRPC *******************************************************************
+
+
+
+
+
 const swaggerUi = require('swagger-ui-express'),
  swaggerDocument = require('../swagger.json');
 
