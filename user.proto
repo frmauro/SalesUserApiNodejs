@@ -3,6 +3,7 @@ syntax = "proto3";
 service UserService {
     rpc GetAll (Empty) returns (UserList) {}
     rpc Get (UserRequestId) returns (User) {}
+    rpc FindByEmailAndPassword (UserEmailPassword) returns (User) {}
 }
 
 message Empty {}
@@ -10,10 +11,17 @@ message Empty {}
 message User {
     string id = 1;
     string name = 2;
-    string password = 3;
-    string token = 4;
-    string userType = 5;
-    string status = 6;
+    string email = 3;
+    string password = 4;
+    string token = 5;
+    string userType = 6;
+    string status = 7;
+}
+
+
+message UserEmailPassword {
+    string email = 1;
+    string password = 2;
 }
 
 message UserList {
