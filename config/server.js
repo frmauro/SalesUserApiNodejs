@@ -19,17 +19,14 @@ var packageDefinition = protoLoader.loadSync(PROTO_PATH, {
      arrays: true
  });
 
- const users = [
-     { id: '1', name: 'Francisco Mauro', password: '123', token: '', userType: 'administrator', status: 'Active'  },
-     { id: '2', name: 'João Mauro', password: '123', token: '', userType: 'client', status: 'Active' }
- ]
- 
+const user =  { id: '1', name: 'Francisco Mauro', password: '123', token: '', userType: 'administrator', status: 'Active'  };
+  
 var userProto = grpc.loadPackageDefinition(packageDefinition);
 const server = new grpc.Server();
 
 server.addService(userProto.UserService.service, {
-     GetAll: (_, callback) => {
-         callback(null, users)
+     findByEmailAndPassword: (_, callback) => {
+         callback(null, user)
      },
  })
 
