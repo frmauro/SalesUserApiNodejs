@@ -1,4 +1,5 @@
 syntax = "proto3";
+package SalesUserApi;
 
 service UserService {
     rpc GetAll (Empty) returns (UserList) {}
