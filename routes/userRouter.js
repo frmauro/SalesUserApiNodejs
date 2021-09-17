@@ -1,6 +1,6 @@
 module.exports = function(application) {
 
-     application.get('/', function(req, res){
+     application.get('/users', function(req, res){
          return application.controllers.userController.index(application, req, res);
      });
 
