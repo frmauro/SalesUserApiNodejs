@@ -13,7 +13,7 @@ module.exports = function(application) {
     });
 
 
-    application.put('/', function(req, res){
+    application.put('/user', function(req, res){
         return application.controllers.userController.update(application, req, res);
     });
 }
