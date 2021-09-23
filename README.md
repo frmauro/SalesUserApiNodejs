@@ -14,3 +14,7 @@ http://localhost:8088/api-docs/
 
 ## curl test POST
 curl -X POST -H "Content-Type: application/json" -d '{"name": "Francisco Mauro", "email": "frmauro8@gmail.com", "password": "123", "userType": "administrator", "status": "active"}'  http://localhost:8088/
+
+## curl test PUT
+curl -X PUT -H "Content-Type: application/json" -d '{"_id": "611aa80245c2ed2212c3ec3d", "name": "Francisco Mauro", "email": "frmauro8@gmail.com", "password": "123", "userType": "administrator", "status": "active"}'  http://localhost/user
+

@@ -8,7 +8,7 @@ module.exports = function(application) {
         return application.controllers.userController.findByEmailAndPassword(application, req, res);
     });
 
-    application.post('/', function(req, res){
+    application.post('/create', function(req, res){
         return application.controllers.userController.create(application, req, res);
     });
 
