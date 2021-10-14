@@ -20,13 +20,13 @@ var userProto = grpc.loadPackageDefinition(packageDefinition);
 const server = new grpc.Server();
 
 server.addService(userProto.SalesUserApi.UserService.service, {
-     findByEmailAndPassword: (_, callback) => {
+     findByEmailAndPassword: (call, callback) => {
 
                  var db = app.models.user;
                  var users = db.Mongoose.model('users', db.UserSchema, 'users');
                  var user =  { id: '1', name: 'Teste', password: '999', token: 'hjsdf8sd7fsdfshjksdfs87986786', userType: 'administrator', status: 'Active'  };
             
-                users.find({}, function(err, result) {
+                users.find({ email: call.request.email, password: call.request.password }, null, { limit: 1 }, function(err, result) {
                     if (err) {
                         console.log(err);
                     } else {
