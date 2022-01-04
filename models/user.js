@@ -9,10 +9,10 @@ module.exports = function(application) {
   //var db = { uri : "mongodb://dbmongouser:27017/ApiSalesUser" };
 
   // local enviroment 
-  //var db = { uri : "mongodb://localhost:27017/ApiSalesUser" };
+  var db = { uri : "mongodb://localhost:27017/ApiSalesUser" };
 
   // enviroment docker kubernates
-  var db = { uri : "mongodb://userdb:27017/ApiSalesUser" };
+  //var db = { uri : "mongodb://userdb:27017/ApiSalesUser" };
 
 
   mongoose.connect(db.uri, { useNewUrlParser: true, useUnifiedTopology: true });

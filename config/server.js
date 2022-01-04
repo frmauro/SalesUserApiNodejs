@@ -29,6 +29,7 @@ consign()
      .include('/routes')
      .then('/controllers')
      .then('/models')
+     .then('/grpc')
      .into(app);
 
 module.exports = app;
