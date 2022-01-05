@@ -61,6 +61,21 @@ server.addService(userProto.SalesUserApi.UserService.service, {
                         callback(null, { users: userList });
                 });
 
+        },
+        Get: (call, callback) => {
+            var db = app.models.user;
+            var users = db.Mongoose.model('users', db.UserSchema, 'users');
+            var userResult = {}; 
+            
+            users.find({ _id: call.request.id }, null, { limit: 1 }, function(err, result) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                       userResult = { id: result.id, name: result.name, email: result.email, password: result.password, token: result.token, userType: result.userType, status: result.status  };
+                    }
+                    callback(null,  userResult);
+            });
+
         }
  })
 
