@@ -45,15 +45,20 @@ server.addService(userProto.SalesUserApi.UserService.service, {
                 var db = app.models.user;
                 //console.log(db);
                 var users = db.Mongoose.model('users', db.UserSchema, 'users');
-                var usersResult = {};
+                var userList = [];
+                
                 
                 users.find({}, function(err, result) {
                         if (err) {
                             console.log(err);
                         } else {
-                            usersResult = result;
+                            result.forEach(element => {
+                                var user =  { id: element.id, name: element.name, email: element.email, password: element.password, token: element.token, userType: element.userType, status: element.status  };
+                                userList.push(user);
+                            });
+                            
                         }
-                        callback(null, usersResult);
+                        callback(null, { users: userList });
                 });
 
         }
