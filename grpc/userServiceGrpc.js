@@ -41,7 +41,23 @@ server.addService(userProto.SalesUserApi.UserService.service, {
                });
 
     },
-})
+    GetAll: (call, callback) => {
+                var db = app.models.user;
+                //console.log(db);
+                var users = db.Mongoose.model('users', db.UserSchema, 'users');
+                var usersResult = {};
+                
+                users.find({}, function(err, result) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            usersResult = result;
+                        }
+                        callback(null, usersResult);
+                });
+
+        }
+ })
 
 
    server.bind('0.0.0.0:50051', grpc.ServerCredentials.createInsecure())
