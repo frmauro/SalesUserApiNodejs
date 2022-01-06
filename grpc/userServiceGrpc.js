@@ -76,7 +76,37 @@ server.addService(userProto.SalesUserApi.UserService.service, {
                     callback(null,  userResult);
             });
 
-        }
+        },
+        create: (call, callback) => {
+
+            var db = app.models.user;
+            //var db = user;
+            var users = db.Mongoose.model('users', db.UserSchema, 'users');
+            var newuser =  { name: call.request.name, email: call.request.email, password: call.request.password, token: 'hjsdf8sd7fsdfshjksdfs87986786', userType: call.request.userType, status: call.request.status  };
+       
+            users.find({email: call.request.email}, function(err, result){
+                if (err) {
+                    callback(null,  newuser);
+                }
+                else {
+                  if (result.length === 0){
+                            var user = new users(newuser);
+                            user.save(function (err, newuserdb) {
+                                if (err) {
+                                    return err;
+                                }
+                                else {
+                                    callback(null,  newuserdb);
+                                }
+                            });
+                      }else{
+                        callback(null,  newuser);
+                    }
+                  }
+    
+            })
+
+        },
  })
 
 
