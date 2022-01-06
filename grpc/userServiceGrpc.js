@@ -107,6 +107,32 @@ server.addService(userProto.SalesUserApi.UserService.service, {
             })
 
         },
+        update: (call, callback) => {
+
+            var db = app.models.user;
+            var users = db.Mongoose.model('users', db.UserSchema, 'users');
+            //console.log(result);
+            users.findByIdAndUpdate(
+              // the id of the item to find
+              call.request.id,
+              
+              // the change to be made. Mongoose will smartly combine your existing 
+              // document with this change, which allows for partial updates too
+              call.request,
+              
+              // an option that asks mongoose to return the updated version 
+              // of the document instead of the pre-updated one.
+              {new: true},
+              
+              // the callback function
+              (err, user) => {
+              // Handle any possible database errors
+                  if (err) callback(null,  {});
+                   callback(null,  user);
+              }
+          )
+
+        },
  })
 
 
