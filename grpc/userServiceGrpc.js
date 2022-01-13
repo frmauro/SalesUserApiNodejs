@@ -71,7 +71,7 @@ server.addService(userProto.SalesUserApi.UserService.service, {
                     if (err) {
                         console.log(err);
                     } else {
-                       userResult = { id: result.id, name: result.name, email: result.email, password: result.password, token: result.token, userType: result.userType, status: result.status  };
+                       userResult = { id: result[0].id, name: result[0].name, email: result[0].email, password: result[0].password, token: result[0].token, userType: result[0].userType, status: result[0].status  };
                     }
                     callback(null,  userResult);
             });
