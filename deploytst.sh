@@ -31,7 +31,6 @@ cp -a /home/francisco/estudos/azuredevops/myagent/_work/3/s/.  /home/francisco/e
 docker build -t salesapiusernode .
 
 echo "built docker images and proceeding to delete existing container"
-
 echo "Deploying the updated container"
 
 docker run --name salesusernode -d -p 8088:8088 -p 50051:50051 --link mongodb salesapiusernode
