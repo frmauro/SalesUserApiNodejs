@@ -6,10 +6,10 @@
 ########################################################
 
 
-result=$( sudo docker images -q salesapiusernode )
+result=$( docker images -q salesapiusernode )
 if [[ -n "$result" ]]; then
 echo "image exists"
-sudo docker rmi -f salesapiusernode
+ docker rmi -f salesapiusernode
 else
 echo "No such image"
 fi
@@ -20,7 +20,7 @@ echo "built docker images and proceeding to delete existing container"
 result=$( docker ps -q -f name=salesusernode )
 if [[ $? -eq 0 ]]; then
 echo "Container exists"
-sudo docker container rm -f salesusernode
+ docker container rm -f salesusernode
 echo "Deleted the existing docker container"
 else
 echo "No such container"
