@@ -21,3 +21,17 @@ curl -X POST -H "Content-Type: application/json" -d '{"name": "Marcia Mauro", "e
 ## curl test PUT
 curl -X PUT -H "Content-Type: application/json" -d '{"_id": "611aa80245c2ed2212c3ec3d", "name": "Francisco Mauro", "email": "frmauro8@gmail.com", "password": "123", "userType": "administrator", "status": "active"}'  http://localhost/user
 
+## types of connectionStrings to Mongodb
+
+  // enviroment without docker compose
+  //var db = { uri : "mongodb://mongodb:27017/ApiSalesUser" };
+  
+  // enviroment docker compose
+  //var db = { uri : "mongodb://dbmongouser:27017/ApiSalesUser" };
+
+  // local enviroment 
+  //var db = { uri : "mongodb://localhost:27017/ApiSalesUser" };
+
+  // enviroment docker kubernates
+  //var db = { uri : "mongodb://userdb:27017/ApiSalesUser" };
+

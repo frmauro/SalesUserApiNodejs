@@ -1,19 +1,19 @@
 var mongoose = require('mongoose');
+var fs = require('fs');
+
+let rawdata = fs.readFileSync('./config/mongodbConnection.json');
+let conn = JSON.parse(rawdata);
+//console.log(conn);
+//console.log(conn.uri);
+
+//var mongodbConnection = require('../config/mongodbConnection');
 
 module.exports = function(application) {
 
-  // enviroment without docker compose
-  var db = { uri : "mongodb://mongodb:27017/ApiSalesUser" };
-  
-  // enviroment docker compose
-  //var db = { uri : "mongodb://dbmongouser:27017/ApiSalesUser" };
+  //let strconndb = "current connection -> " + mongodbConnection.uri;
+  //console.log(strconndb);
 
-  // local enviroment 
-  //var db = { uri : "mongodb://localhost:27017/ApiSalesUser" };
-
-  // enviroment docker kubernates
-  //var db = { uri : "mongodb://userdb:27017/ApiSalesUser" };
-
+  var db = { uri : conn.uri };
 
   mongoose.connect(db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
