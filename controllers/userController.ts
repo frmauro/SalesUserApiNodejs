@@ -1,11 +1,14 @@
+import { fromJSON } from '@grpc/proto-loader';
 import UserMongoose from '../models/DB/userMongosse'
-let jwt = require('jsonwebtoken');
-let jwtSecretKey = require('../config/jwtSecretKey');
+import User from '../models/user';
+import jwt from 'jsonwebtoken';
+import JwtSecretKey from '../config/jwtSecretKey';
 
 
  class UserController {
   req: any;
   res: any;
+  jwtSecretKey: JwtSecretKey = new JwtSecretKey();
 
    constructor(request: any, response: any){
      this.req = request;
@@ -28,7 +31,7 @@ let jwtSecretKey = require('../config/jwtSecretKey');
     }
 
 
-  findByEmailAndPassword (){
+  findByEmailAndPassword(): string{
     
       const userMongoose = new UserMongoose();
       const model = userMongoose.getUserModel;
@@ -38,7 +41,7 @@ let jwtSecretKey = require('../config/jwtSecretKey');
       var password = this.req.body.password;
       var users = model('users', userSchema, 'users');
 
-      users.find({email: email, password: password}, (err: any, result: any) => {
+     return users.find({email: email, password: password}, (err: any, result: any) => {
                       if (err) {
                         console.log("Error! " + err.message);
                         return err;
@@ -46,10 +49,11 @@ let jwtSecretKey = require('../config/jwtSecretKey');
                     else {
                         if (result.length === 0){
                           this.res.json("user not exists");
+                          return "user not exists";
                         }else{
-                          let token = jwt.sign({password: password},  jwtSecretKey.secret,{ expiresIn: '1h' });
+                          let token = jwt.sign({password: password},  this.jwtSecretKey.getSecretKey,{ expiresIn: '1h' });
                           result[0].token = token;
-                          this.res.json(result);
+                          return this.res.json(result);
                         }
                     }
           })
@@ -59,7 +63,7 @@ let jwtSecretKey = require('../config/jwtSecretKey');
 
 
 
-  create(){
+  create(): void{
 
     var name = this.req.body.name;
     var email = this.req.body.email;
@@ -104,41 +108,56 @@ let jwtSecretKey = require('../config/jwtSecretKey');
   }
 
 
-  update(){
+  update(): User{
 
     var _id = this.req.body._id;
-    var name = this.req.body.name;
-    var email = this.req.body.email;
-    var password = this.req.body.password;
-    var userType = this.req.body.userType;
-    var status = this.req.body.status;
+    // var name = this.req.body.name;
+    // var email = this.req.body.email;
+    // var password = this.req.body.password;
+    // var userType = this.req.body.userType;
+    // var status = this.req.body.status;
 
     const userMongoose = new UserMongoose();
     const model = userMongoose.getUserModel;
     const userSchema = userMongoose.getUserSchema;
 
     var users = model('users', userSchema, 'users');
-            users.findByIdAndUpdate(
-              // the id of the item to find
+
+        return users.findByIdAndUpdate(
               _id,
-              
-              // the change to be made. Mongoose will smartly combine your existing 
-              // document with this change, which allows for partial updates too
               this.req.body,
-              
               // an option that asks mongoose to return the updated version 
               // of the document instead of the pre-updated one.
               {new: true},
-              
               // the callback function
-              (err: any, user: any) => {
+              (err: any, userdb: any) => {
               // Handle any possible database errors
-                  if (err) return this.res.status(500).send(err);
-                  return this.res.json(user);
+                  if (err){
+                    //this.res.status(500).send(err);
+                    return new User('', '', '', '', '', '');
+                  } 
+                  let userdbJson = this.res.json(userdb);
+                  let user = fromJSON(userdbJson);
+                  return user;
               }
           )
   
   }
+
+  
+
+
+  static fromJSON(serialized : string) : User {
+    const user : ReturnType<() => User> = JSON.parse(serialized);
+    return new User(
+        user.name,
+        user.email,
+        user.password,
+        user.status,
+        user.token,
+        user.userType
+    )
+}
 
 } 
 

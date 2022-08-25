@@ -9,9 +9,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 //import swaggerUi from 'swagger-ui-express';
 //import swaggerDocument from '../swagger.json';
-//var bodyParser = require('body-parser');
 //var consign = require('consign');
-//var cors = require('cors');
 //const swaggerUi = //require('swagger-ui-express'),
 //swaggerDocument = require('../swagger.json');
 const app = (0, express_1.default)();

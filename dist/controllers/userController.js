@@ -3,11 +3,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const proto_loader_1 = require("@grpc/proto-loader");
 const userMongosse_1 = __importDefault(require("../models/DB/userMongosse"));
-let jwt = require('jsonwebtoken');
-let jwtSecretKey = require('../config/jwtSecretKey');
+const user_1 = __importDefault(require("../models/user"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const jwtSecretKey_1 = __importDefault(require("../config/jwtSecretKey"));
+// let jwt = require('jsonwebtoken');
+// let jwtSecretKey = require('../config/jwtSecretKey');
 class UserController {
     constructor(request, response) {
+        this.jwtSecretKey = new jwtSecretKey_1.default();
         this.req = request;
         this.res = response;
     }
@@ -32,7 +37,7 @@ class UserController {
         var email = this.req.body.email;
         var password = this.req.body.password;
         var users = model('users', userSchema, 'users');
-        users.find({ email: email, password: password }, (err, result) => {
+        return users.find({ email: email, password: password }, (err, result) => {
             if (err) {
                 console.log("Error! " + err.message);
                 return err;
@@ -40,11 +45,12 @@ class UserController {
             else {
                 if (result.length === 0) {
                     this.res.json("user not exists");
+                    return "user not exists";
                 }
                 else {
-                    let token = jwt.sign({ password: password }, jwtSecretKey.secret, { expiresIn: '1h' });
+                    let token = jsonwebtoken_1.default.sign({ password: password }, this.jwtSecretKey.getSecretKey, { expiresIn: '1h' });
                     result[0].token = token;
-                    this.res.json(result);
+                    return this.res.json(result);
                 }
             }
         });
@@ -87,31 +93,34 @@ class UserController {
     }
     update() {
         var _id = this.req.body._id;
-        var name = this.req.body.name;
-        var email = this.req.body.email;
-        var password = this.req.body.password;
-        var userType = this.req.body.userType;
-        var status = this.req.body.status;
+        // var name = this.req.body.name;
+        // var email = this.req.body.email;
+        // var password = this.req.body.password;
+        // var userType = this.req.body.userType;
+        // var status = this.req.body.status;
         const userMongoose = new userMongosse_1.default();
         const model = userMongoose.getUserModel;
         const userSchema = userMongoose.getUserSchema;
         var users = model('users', userSchema, 'users');
-        users.findByIdAndUpdate(
-        // the id of the item to find
-        _id, 
-        // the change to be made. Mongoose will smartly combine your existing 
-        // document with this change, which allows for partial updates too
-        this.req.body, 
+        return users.findByIdAndUpdate(_id, this.req.body, 
         // an option that asks mongoose to return the updated version 
         // of the document instead of the pre-updated one.
         { new: true }, 
         // the callback function
-        (err, user) => {
+        (err, userdb) => {
             // Handle any possible database errors
-            if (err)
-                return this.res.status(500).send(err);
-            return this.res.json(user);
+            if (err) {
+                //this.res.status(500).send(err);
+                return new user_1.default('', '', '', '', '', '');
+            }
+            let userdbJson = this.res.json(userdb);
+            let user = (0, proto_loader_1.fromJSON)(userdbJson);
+            return user;
         });
+    }
+    static fromJSON(serialized) {
+        const user = JSON.parse(serialized);
+        return new user_1.default(user.name, user.email, user.password, user.status, user.token, user.userType);
     }
 }
 exports.default = UserController;

@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import UserController from '../controllers/userController';
+import User from '../models/user';
 
 
 class UserRouter {
@@ -10,33 +11,37 @@ class UserRouter {
         this._userController = userController;
     }
 
+    get getUserRouter(): Router{
+        return this.router;
+    }
+
 
     getUsers() {
-         this.router.get('/users', (req, res) =>{
+         this.router.get('/users', () =>{
                     return this._userController.index();
                 });
+    }
+
+    findByEmailAndPassword() {
+        return this.router.post('/user', () => {
+                return this._userController.findByEmailAndPassword();
+        });
+    }
+
+    create(): void {
+        this.router.post('/create', () => {
+             this._userController.create();
+        });
+    } 
+
+
+    update(): any {
+        return this.router.put('/user', () => {
+            return this._userController.update();
+        });
     }
 }
 
 export default UserRouter;
 
 
-// //export const userRouter = Router();
-
-
-// userRouter.get('/users', function(req, res){
-//          return new userController().index(application, req, res);
-//      });
-
-//      userRouter.post('/user', function(req, res){
-//         return application.controllers.userController.findByEmailAndPassword(application, req, res);
-//     });
-
-//     userRouter.post('/create', function(req, res){
-//         return application.controllers.userController.create(application, req, res);
-//     });
-
-
-//     userRouter.put('/user', function(req, res){
-//         return application.controllers.userController.update(application, req, res);
-//     });

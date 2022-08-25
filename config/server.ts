@@ -5,10 +5,7 @@ import cors from 'cors';
 //import swaggerUi from 'swagger-ui-express';
 //import swaggerDocument from '../swagger.json';
 
-//var bodyParser = require('body-parser');
 //var consign = require('consign');
-//var cors = require('cors');
-
 
 //const swaggerUi = //require('swagger-ui-express'),
  //swaggerDocument = require('../swagger.json');
