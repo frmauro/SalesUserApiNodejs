@@ -1,4 +1,4 @@
-let TYPES = {
+const TYPES = {
     IUserController: Symbol.for("IUserController")   
 };
 

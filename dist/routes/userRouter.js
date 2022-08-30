@@ -24,11 +24,6 @@ class UserRouter {
             this._userController.create();
         });
     }
-    update() {
-        return this.router.put('/user', () => {
-            return this._userController.update();
-        });
-    }
 }
 exports.default = UserRouter;
 //# sourceMappingURL=userRouter.js.map

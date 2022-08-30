@@ -34,11 +34,11 @@ class UserRouter {
     } 
 
 
-    update(): any {
-        return this.router.put('/user', () => {
-            return this._userController.update();
-        });
-    }
+    // update(): any {
+    //     return this.router.put('/user', () => {
+    //         return this._userController.update();
+    //     });
+    // }
 }
 
 export default UserRouter;
