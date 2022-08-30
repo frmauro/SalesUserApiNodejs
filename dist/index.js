@@ -23,4 +23,5 @@ class Index {
     }
 }
 exports.Index = Index;
+exports.default = new Index();
 //# sourceMappingURL=index.js.map

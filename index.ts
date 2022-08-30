@@ -45,5 +45,7 @@ export class Index{
 
 }
 
+export default new Index();
+
 
 
