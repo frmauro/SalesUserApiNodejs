@@ -1,13 +1,12 @@
 import { Router } from 'express';
-import UserController from '../controllers/userController';
-import User from '../models/user';
+import { IUserController } from '../controllers/IUserController';
 
 
 class UserRouter {
-    _userController: UserController;
+    _userController: IUserController;
      router = Router();
 
-    constructor(userController: UserController){
+    constructor(userController: IUserController){
         this._userController = userController;
     }
 

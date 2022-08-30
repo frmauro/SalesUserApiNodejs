@@ -49,3 +49,4 @@ class UserMongoose {
     }
 }
 exports.default = UserMongoose;
+//# sourceMappingURL=userMongosse.js.map

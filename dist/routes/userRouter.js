@@ -31,3 +31,4 @@ class UserRouter {
     }
 }
 exports.default = UserRouter;
+//# sourceMappingURL=userRouter.js.map

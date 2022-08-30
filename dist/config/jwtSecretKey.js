@@ -12,3 +12,4 @@ exports.default = JwtSecretKey;
 // module.exports = {
 //     secret: 'worldisfullofdevelopers'
 // };
+//# sourceMappingURL=jwtSecretKey.js.map

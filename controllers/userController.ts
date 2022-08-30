@@ -3,16 +3,31 @@ import UserMongoose from '../models/DB/userMongosse'
 import User from '../models/user';
 import jwt from 'jsonwebtoken';
 import JwtSecretKey from '../config/jwtSecretKey';
+import { IUserController } from './IUserController';
+import { injectable, inject } from 'inversify';
+import "reflect-metadata";
+import TYPES from '../types';
 
-
- class UserController {
-  req: any;
-  res: any;
+ @injectable()
+ class UserController implements IUserController {
+  _req: any;
+  _res: any;
   jwtSecretKey: JwtSecretKey = new JwtSecretKey();
+  private _userController: IUserController;
 
-   constructor(request: any, response: any){
-     this.req = request;
-     this.res = response;
+   constructor(
+    @inject(TYPES.IUserController) userController: IUserController
+   ){
+     this._userController = userController;
+   }
+
+   public setRequest(request: any): void {
+    this._req = request;
+     //throw new Error('Method not implemented.');
+   }
+
+   public SetResponse(value: any) {
+    this._res = value;
    }
 
    index(): string {
@@ -25,7 +40,7 @@ import JwtSecretKey from '../config/jwtSecretKey';
           if (err) {
             console.log(err);
           } else {
-            return this.res.json(result);
+            return this._res.json(result);
           }
         });
     }
@@ -37,8 +52,8 @@ import JwtSecretKey from '../config/jwtSecretKey';
       const model = userMongoose.getUserModel;
       const userSchema = userMongoose.getUserSchema;
 
-      var email = this.req.body.email;
-      var password = this.req.body.password;
+      var email = this._req.body.email;
+      var password = this._req.body.password;
       var users = model('users', userSchema, 'users');
 
      return users.find({email: email, password: password}, (err: any, result: any) => {
@@ -48,12 +63,12 @@ import JwtSecretKey from '../config/jwtSecretKey';
                     }
                     else {
                         if (result.length === 0){
-                          this.res.json("user not exists");
+                          this._res.json("user not exists");
                           return "user not exists";
                         }else{
                           let token = jwt.sign({password: password},  this.jwtSecretKey.getSecretKey,{ expiresIn: '1h' });
                           result[0].token = token;
-                          return this.res.json(result);
+                          return this._res.json(result);
                         }
                     }
           })
@@ -61,15 +76,13 @@ import JwtSecretKey from '../config/jwtSecretKey';
 
 
 
-
-
   create(): void{
 
-    var name = this.req.body.name;
-    var email = this.req.body.email;
-    var password = this.req.body.password;
-    var userType = this.req.body.userType;
-    var status = this.req.body.status;
+    var name = this._req.body.name;
+    var email = this._req.body.email;
+    var password = this._req.body.password;
+    var userType = this._req.body.userType;
+    var status = this._req.body.status;
 
     const userMongoose = new UserMongoose();
     const model = userMongoose.getUserModel;
@@ -94,12 +107,12 @@ import JwtSecretKey from '../config/jwtSecretKey';
                                 return err;
                             }
                             else {
-                                this.res.json(result);
+                                this._res.json(result);
                             }
                         });
 
               }else{
-                this.res.json("user exists");
+                this._res.json("user exists");
               }
 
           }
@@ -110,7 +123,7 @@ import JwtSecretKey from '../config/jwtSecretKey';
 
   update(): User{
 
-    var _id = this.req.body._id;
+    var _id = this._req.body._id;
     // var name = this.req.body.name;
     // var email = this.req.body.email;
     // var password = this.req.body.password;
@@ -125,7 +138,7 @@ import JwtSecretKey from '../config/jwtSecretKey';
 
         return users.findByIdAndUpdate(
               _id,
-              this.req.body,
+              this._req.body,
               // an option that asks mongoose to return the updated version 
               // of the document instead of the pre-updated one.
               {new: true},
@@ -136,7 +149,7 @@ import JwtSecretKey from '../config/jwtSecretKey';
                     //this.res.status(500).send(err);
                     return new User('', '', '', '', '', '');
                   } 
-                  let userdbJson = this.res.json(userdb);
+                  let userdbJson = this._res.json(userdb);
                   let user = fromJSON(userdbJson);
                   return user;
               }
@@ -145,8 +158,6 @@ import JwtSecretKey from '../config/jwtSecretKey';
   }
 
   
-
-
   static fromJSON(serialized : string) : User {
     const user : ReturnType<() => User> = JSON.parse(serialized);
     return new User(
