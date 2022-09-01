@@ -4,6 +4,10 @@ import bodyParser from "body-parser";
 import cors from 'cors'; 
 import { IUserController } from "../controllers/IUserController";
 import { IUserRouter } from "../routes/IUserRouter";
+import { IServer } from "./IServer";
+import { injectable } from "inversify";
+import UserController from "../controllers/userController";
+import UserRouter from "../routes/userRouter";
 //import swaggerUi from 'swagger-ui-express';
 //import swaggerDocument from '../swagger.json';
 
@@ -12,22 +16,26 @@ import { IUserRouter } from "../routes/IUserRouter";
 //const swaggerUi = //require('swagger-ui-express'),
  //swaggerDocument = require('../swagger.json');
 
+ 
 class Server{
 
   public app = express.application;
-  userRouter: IUserRouter;
-  userController: IUserController;
+  //userRouter: IUserRouter;
+  //userController: IUserController;
+  
 
-
-  constructor(userController: IUserController, userRouter: IUserRouter){
+  constructor(){
     this.app = express();
-    this.userController = userController;
-    this.userController.setRequest(express.request);
-    this.userController.SetResponse(express.response);
-    this.userRouter = userRouter;
-    this.userRouter.SetController(this.userController);
-    this.userRouter.SetRouter(userRouter);
-    this.app.use(this.userRouter.getUsers);
+    const userController = new UserController(this.app);
+    const userRouter = new UserRouter(userController);
+
+    //this.userController = userController;
+    //this.userController.setRequest(express.request);
+    //this.userController.SetResponse(express.response);
+    //this.userRouter = userRouter;
+    //this.userRouter.SetController(this.userController);
+    //this.userRouter.SetRouter(router);
+    this.app.use(userRouter.router);
     this.middleware();
   }
 

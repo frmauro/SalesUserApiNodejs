@@ -1,49 +1,56 @@
-import { Router } from 'express';
+import express, { IRouter, Router } from 'express';
 import { injectable } from 'inversify';
 import { IUserController } from '../controllers/IUserController';
+import UserController from '../controllers/userController';
 import { IUserRouter } from './IUserRouter';
 
-@injectable()
-class UserRouter implements IUserRouter {
+//@injectable()
+class UserRouter  {
     _userController: any;
-    _router: any;
+     public router: any;
 
-    constructor(){}
-    SetRouter(router: IUserRouter): void {
-        this._router = router; 
-        //throw new Error('Method not implemented.');
+    constructor(
+        userController: UserController
+    ){
+        this._userController = userController;
+        this.router = express.Router();
+        this.getUsers;
     }
+    // SetRouter(router: IRouter): void {
+    //     this.router = router; 
+    //     //throw new Error('Method not implemented.');
+    // }
 
-    SetController(controller: IUserController): void {
-        this._userController = controller;
-    }
+    // SetController(controller: IUserController): void {
+    //     this._userController = controller;
+    // }
 
-    get getUserRouter(): Router{
-        return this._router;
-    }
+    // get getUserRouter(): Router{
+    //     return this.router;
+    // }
 
 
-    getUsers(): any  {
-         this._router.get('/users', () =>{
+    getUsers(): void  {
+         this.router.get('/users', () =>{
                     return this._userController.index();
                 });
     }
 
-    findByEmailAndPassword(): any {
-        return this._router.post('/user', () => {
+    findByEmailAndPassword(): void {
+         this.router.post('/user', () => {
                 return this._userController.findByEmailAndPassword();
         });
     }
 
     create(): void {
-        this._router.post('/create', () => {
+        this.router.post('/create', () => {
              this._userController.create();
         });
     } 
 
 
-    update(): any {
-        return this._router.put('/user', () => {
+    update(): void {
+        this.router.put('/user', () => {
             return this._userController.update();
         });
     }

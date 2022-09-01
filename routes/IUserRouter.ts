@@ -1,3 +1,4 @@
+import { IRouter } from "express";
 import { IUserController } from "../controllers/IUserController";
 
 export interface IUserRouter{
@@ -6,5 +7,6 @@ export interface IUserRouter{
    create(): void 
    update(): any 
    SetController(controller: IUserController): void
-   SetRouter(router: IUserRouter): void
+   SetRouter(router: IRouter): void
+   router: IRouter
 }

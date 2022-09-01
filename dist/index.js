@@ -5,20 +5,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Index = void 0;
 const server_1 = __importDefault(require("./config/server"));
-const di_container_1 = __importDefault(require("./di-container"));
-const types_1 = __importDefault(require("./types"));
+const userRouter_1 = __importDefault(require("./routes/userRouter"));
 class Index {
     constructor() {
         this.port = 8083;
-        this.createDependencies();
+        //this.createDependencies();
+        this.createServer();
     }
     createDependencies() {
-        const userController = di_container_1.default.get(types_1.default.IUserController);
-        const userRouter = di_container_1.default.get(types_1.default.IUserRouter);
-        this.createServer(userController, userRouter);
+        //const userController = container.get<IUserController>(TYPES.IUserController);
+        //const userRouter = container.get<IUserRouter>(TYPES.IUserRouter);
+        //this.createServer(userController, userRouter);
     }
-    createServer(userController, userRouter) {
-        var server = new server_1.default(userController, userRouter);
+    createServer() {
+        var server = new server_1.default();
+        server.app.use(userRouter_1.default);
         server.app.listen(this.port);
         console.log(`Server listening at port: ${this.port}`);
     }

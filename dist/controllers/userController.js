@@ -1,13 +1,4 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -17,23 +8,22 @@ const userMongosse_1 = __importDefault(require("../models/DB/userMongosse"));
 const user_1 = __importDefault(require("../models/user"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const jwtSecretKey_1 = __importDefault(require("../config/jwtSecretKey"));
-const inversify_1 = require("inversify");
 require("reflect-metadata");
-let UserController = class UserController {
+//@injectable()
+class UserController {
     //private _userController: IUserController;
-    constructor(
-    //@inject(TYPES.IUserController) userController: IUserController
-    ) {
+    constructor(app) {
         this.jwtSecretKey = new jwtSecretKey_1.default();
         //this._userController = userController;
+        this._app = app;
     }
-    setRequest(request) {
-        this._req = request;
-        //throw new Error('Method not implemented.');
-    }
-    SetResponse(value) {
-        this._res = value;
-    }
+    //  public setRequest(request: any): void {
+    //   this._req = request;
+    //    //throw new Error('Method not implemented.');
+    //  }
+    //  public SetResponse(value: any) {
+    //   this._res = value;
+    //  }
     index() {
         const userMongoose = new userMongosse_1.default();
         const model = userMongoose.getUserModel;
@@ -44,7 +34,7 @@ let UserController = class UserController {
                 console.log(err);
             }
             else {
-                return this._res.json(result);
+                return this._app._res.json(result);
             }
         });
     }
@@ -52,8 +42,8 @@ let UserController = class UserController {
         const userMongoose = new userMongosse_1.default();
         const model = userMongoose.getUserModel;
         const userSchema = userMongoose.getUserSchema;
-        var email = this._req.body.email;
-        var password = this._req.body.password;
+        var email = this._app._req.body.email;
+        var password = this._app._req.body.password;
         var users = model('users', userSchema, 'users');
         return users.find({ email: email, password: password }, (err, result) => {
             if (err) {
@@ -62,23 +52,23 @@ let UserController = class UserController {
             }
             else {
                 if (result.length === 0) {
-                    this._res.json("user not exists");
+                    this._app._res.json("user not exists");
                     return "user not exists";
                 }
                 else {
                     let token = jsonwebtoken_1.default.sign({ password: password }, this.jwtSecretKey.getSecretKey, { expiresIn: '1h' });
                     result[0].token = token;
-                    return this._res.json(result);
+                    return this._app._res.json(result);
                 }
             }
         });
     }
     create() {
-        var name = this._req.body.name;
-        var email = this._req.body.email;
-        var password = this._req.body.password;
-        var userType = this._req.body.userType;
-        var status = this._req.body.status;
+        var name = this._app._req.body.name;
+        var email = this._app._req.body.email;
+        var password = this._app._req.body.password;
+        var userType = this._app._req.body.userType;
+        var status = this._app._req.body.status;
         const userMongoose = new userMongosse_1.default();
         const model = userMongoose.getUserModel;
         const userSchema = userMongoose.getUserSchema;
@@ -99,18 +89,18 @@ let UserController = class UserController {
                             return err;
                         }
                         else {
-                            this._res.json(result);
+                            this._app._res.json(result);
                         }
                     });
                 }
                 else {
-                    this._res.json("user exists");
+                    this._app._res.json("user exists");
                 }
             }
         });
     }
     update() {
-        var _id = this._req.body._id;
+        var _id = this._app._req.body._id;
         // var name = this.req.body.name;
         // var email = this.req.body.email;
         // var password = this.req.body.password;
@@ -120,7 +110,7 @@ let UserController = class UserController {
         const model = userMongoose.getUserModel;
         const userSchema = userMongoose.getUserSchema;
         var users = model('users', userSchema, 'users');
-        return users.findByIdAndUpdate(_id, this._req.body, 
+        return users.findByIdAndUpdate(_id, this._app._req.body, 
         // an option that asks mongoose to return the updated version 
         // of the document instead of the pre-updated one.
         { new: true }, 
@@ -131,15 +121,11 @@ let UserController = class UserController {
                 //this.res.status(500).send(err);
                 return new user_1.default('', '', '', '', '', '');
             }
-            let userdbJson = this._res.json(userdb);
+            let userdbJson = this._app._res.json(userdb);
             let user = (0, proto_loader_1.fromJSON)(userdbJson);
             return user;
         });
     }
-};
-UserController = __decorate([
-    (0, inversify_1.injectable)(),
-    __metadata("design:paramtypes", [])
-], UserController);
+}
 exports.default = UserController;
 //# sourceMappingURL=userController.js.map

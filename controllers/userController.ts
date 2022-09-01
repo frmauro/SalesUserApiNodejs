@@ -7,28 +7,32 @@ import { IUserController } from './IUserController';
 import { injectable, inject } from 'inversify';
 import "reflect-metadata";
 import TYPES from '../types';
+import { IRoute, IRouter } from 'express';
 
- @injectable()
- class UserController implements IUserController {
-  _req: any;
-  _res: any;
+ //@injectable()
+ class UserController  {
+  //_req: any;
+  //_res: any;
+  _app: any;
+  _router: any;
+
   jwtSecretKey: JwtSecretKey = new JwtSecretKey();
   //private _userController: IUserController;
 
-   constructor(
-    //@inject(TYPES.IUserController) userController: IUserController
+   constructor(app: any
    ){
      //this._userController = userController;
+     this._app = app;
    }
 
-   public setRequest(request: any): void {
-    this._req = request;
-     //throw new Error('Method not implemented.');
-   }
+  //  public setRequest(request: any): void {
+  //   this._req = request;
+  //    //throw new Error('Method not implemented.');
+  //  }
 
-   public SetResponse(value: any) {
-    this._res = value;
-   }
+  //  public SetResponse(value: any) {
+  //   this._res = value;
+  //  }
 
    index(): string {
     const userMongoose = new UserMongoose();
@@ -40,7 +44,7 @@ import TYPES from '../types';
           if (err) {
             console.log(err);
           } else {
-            return this._res.json(result);
+            return this._app._res.json(result);
           }
         });
     }
@@ -52,8 +56,8 @@ import TYPES from '../types';
       const model = userMongoose.getUserModel;
       const userSchema = userMongoose.getUserSchema;
 
-      var email = this._req.body.email;
-      var password = this._req.body.password;
+      var email = this._app._req.body.email;
+      var password = this._app._req.body.password;
       var users = model('users', userSchema, 'users');
 
      return users.find({email: email, password: password}, (err: any, result: any) => {
@@ -63,12 +67,12 @@ import TYPES from '../types';
                     }
                     else {
                         if (result.length === 0){
-                          this._res.json("user not exists");
+                          this._app._res.json("user not exists");
                           return "user not exists";
                         }else{
                           let token = jwt.sign({password: password},  this.jwtSecretKey.getSecretKey,{ expiresIn: '1h' });
                           result[0].token = token;
-                          return this._res.json(result);
+                          return this._app._res.json(result);
                         }
                     }
           })
@@ -78,11 +82,11 @@ import TYPES from '../types';
 
   create(): void{
 
-    var name = this._req.body.name;
-    var email = this._req.body.email;
-    var password = this._req.body.password;
-    var userType = this._req.body.userType;
-    var status = this._req.body.status;
+    var name = this._app._req.body.name;
+    var email = this._app._req.body.email;
+    var password = this._app._req.body.password;
+    var userType = this._app._req.body.userType;
+    var status = this._app._req.body.status;
 
     const userMongoose = new UserMongoose();
     const model = userMongoose.getUserModel;
@@ -107,12 +111,12 @@ import TYPES from '../types';
                                 return err;
                             }
                             else {
-                                this._res.json(result);
+                                this._app._res.json(result);
                             }
                         });
 
               }else{
-                this._res.json("user exists");
+                this._app._res.json("user exists");
               }
 
           }
@@ -123,7 +127,7 @@ import TYPES from '../types';
 
   update(): User{
 
-    var _id = this._req.body._id;
+    var _id = this._app._req.body._id;
     // var name = this.req.body.name;
     // var email = this.req.body.email;
     // var password = this.req.body.password;
@@ -138,7 +142,7 @@ import TYPES from '../types';
 
         return users.findByIdAndUpdate(
               _id,
-              this._req.body,
+              this._app._req.body,
               // an option that asks mongoose to return the updated version 
               // of the document instead of the pre-updated one.
               {new: true},
@@ -149,7 +153,7 @@ import TYPES from '../types';
                     //this.res.status(500).send(err);
                     return new User('', '', '', '', '', '');
                   } 
-                  let userdbJson = this._res.json(userdb);
+                  let userdbJson = this._app._res.json(userdb);
                   let user = fromJSON(userdbJson);
                   return user;
               }

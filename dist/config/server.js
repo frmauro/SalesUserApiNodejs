@@ -7,22 +7,28 @@ const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 //import consign from 'consign';
 const cors_1 = __importDefault(require("cors"));
+const userController_1 = __importDefault(require("../controllers/userController"));
+const userRouter_1 = __importDefault(require("../routes/userRouter"));
 //import swaggerUi from 'swagger-ui-express';
 //import swaggerDocument from '../swagger.json';
 //var consign = require('consign');
 //const swaggerUi = //require('swagger-ui-express'),
 //swaggerDocument = require('../swagger.json');
 class Server {
-    constructor(userController, userRouter) {
+    //userRouter: IUserRouter;
+    //userController: IUserController;
+    constructor() {
         this.app = express_1.default.application;
         this.app = (0, express_1.default)();
-        this.userController = userController;
-        this.userController.setRequest(express_1.default.request);
-        this.userController.SetResponse(express_1.default.response);
-        this.userRouter = userRouter;
-        this.userRouter.SetController(this.userController);
-        this.userRouter.SetRouter(userRouter);
-        this.app.use(this.userRouter.getUsers);
+        const userController = new userController_1.default(this.app);
+        const userRouter = new userRouter_1.default(userController);
+        //this.userController = userController;
+        //this.userController.setRequest(express.request);
+        //this.userController.SetResponse(express.response);
+        //this.userRouter = userRouter;
+        //this.userRouter.SetController(this.userController);
+        //this.userRouter.SetRouter(router);
+        this.app.use(userRouter.router);
         this.middleware();
     }
     middleware() {

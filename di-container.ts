@@ -6,7 +6,7 @@ import UserRouter from "./routes/userRouter";
 import { IUserRouter } from "./routes/IUserRouter";
 
 var container = new Container();
-container.bind<IUserController>(TYPES.IUserController).to(UserController);
-container.bind<IUserRouter>(TYPES.IUserRouter).to(UserRouter);
+//container.bind<IUserController>(TYPES.IUserController).to(UserController);
+//container.bind<IUserRouter>(TYPES.IUserRouter).to(UserRouter);
 
 export default container;
