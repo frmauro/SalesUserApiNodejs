@@ -2,6 +2,7 @@ import { createServer } from "http";
 import Server from "./config/server";
 import { IUserController } from "./controllers/IUserController";
 import container from "./di-container";
+import { IUserRouter } from "./routes/IUserRouter";
 import TYPES from "./types";
 
 
@@ -17,10 +18,11 @@ export class Index{
 
         createDependencies(){
                 const userController = container.get<IUserController>(TYPES.IUserController);
-                this.createServer(userController);
+                const userRouter = container.get<IUserRouter>(TYPES.IUserRouter);
+                this.createServer(userController, userRouter);
         }
-        createServer(userController: IUserController): void{
-                var server: Server = new Server(userController);
+        createServer(userController: IUserController, userRouter: IUserRouter): void{
+                var server: Server = new Server(userController, userRouter);
                 server.app.listen(this.port);
                 console.log(`Server listening at port: ${this.port}`);
         }

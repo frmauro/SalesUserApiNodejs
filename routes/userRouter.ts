@@ -1,44 +1,52 @@
 import { Router } from 'express';
+import { injectable } from 'inversify';
 import { IUserController } from '../controllers/IUserController';
+import { IUserRouter } from './IUserRouter';
 
+@injectable()
+class UserRouter implements IUserRouter {
+    _userController: any;
+    _router: any;
 
-class UserRouter {
-    _userController: IUserController;
-     router = Router();
+    constructor(){}
+    SetRouter(router: IUserRouter): void {
+        this._router = router; 
+        //throw new Error('Method not implemented.');
+    }
 
-    constructor(userController: IUserController){
-        this._userController = userController;
+    SetController(controller: IUserController): void {
+        this._userController = controller;
     }
 
     get getUserRouter(): Router{
-        return this.router;
+        return this._router;
     }
 
 
-    getUsers() {
-         this.router.get('/users', () =>{
+    getUsers(): any  {
+         this._router.get('/users', () =>{
                     return this._userController.index();
                 });
     }
 
-    findByEmailAndPassword() {
-        return this.router.post('/user', () => {
+    findByEmailAndPassword(): any {
+        return this._router.post('/user', () => {
                 return this._userController.findByEmailAndPassword();
         });
     }
 
     create(): void {
-        this.router.post('/create', () => {
+        this._router.post('/create', () => {
              this._userController.create();
         });
     } 
 
 
-    // update(): any {
-    //     return this.router.put('/user', () => {
-    //         return this._userController.update();
-    //     });
-    // }
+    update(): any {
+        return this._router.put('/user', () => {
+            return this._userController.update();
+        });
+    }
 }
 
 export default UserRouter;

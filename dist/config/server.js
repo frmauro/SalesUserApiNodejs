@@ -7,20 +7,23 @@ const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 //import consign from 'consign';
 const cors_1 = __importDefault(require("cors"));
-const userRouter_1 = __importDefault(require("../routes/userRouter"));
 //import swaggerUi from 'swagger-ui-express';
 //import swaggerDocument from '../swagger.json';
 //var consign = require('consign');
 //const swaggerUi = //require('swagger-ui-express'),
 //swaggerDocument = require('../swagger.json');
 class Server {
-    constructor(userController) {
+    constructor(userController, userRouter) {
         this.app = express_1.default.application;
         this.app = (0, express_1.default)();
         this.userController = userController;
         this.userController.setRequest(express_1.default.request);
         this.userController.SetResponse(express_1.default.response);
-        this.userRouter = new userRouter_1.default(this.userController);
+        this.userRouter = userRouter;
+        this.userRouter.SetController(this.userController);
+        this.userRouter.SetRouter(userRouter);
+        this.app.use(this.userRouter.getUsers);
+        this.middleware();
     }
     middleware() {
         this.app.use(body_parser_1.default.urlencoded({ extended: true }));
@@ -39,9 +42,6 @@ class Server {
             res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
             next();
         });
-    }
-    router() {
-        this.app.use(this.userRouter.getUserRouter);
     }
 }
 exports.default = Server;

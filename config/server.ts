@@ -2,8 +2,8 @@ import express, { Express, Request, Response } from "express";
 import bodyParser from "body-parser";
 //import consign from 'consign';
 import cors from 'cors'; 
-import UserRouter from "../routes/userRouter";
 import { IUserController } from "../controllers/IUserController";
+import { IUserRouter } from "../routes/IUserRouter";
 //import swaggerUi from 'swagger-ui-express';
 //import swaggerDocument from '../swagger.json';
 
@@ -15,16 +15,20 @@ import { IUserController } from "../controllers/IUserController";
 class Server{
 
   public app = express.application;
-  userRouter!: UserRouter;
+  userRouter: IUserRouter;
   userController: IUserController;
 
 
-  constructor(userController: IUserController){
+  constructor(userController: IUserController, userRouter: IUserRouter){
     this.app = express();
     this.userController = userController;
     this.userController.setRequest(express.request);
     this.userController.SetResponse(express.response);
-    this.userRouter = new UserRouter(this.userController);
+    this.userRouter = userRouter;
+    this.userRouter.SetController(this.userController);
+    this.userRouter.SetRouter(userRouter);
+    this.app.use(this.userRouter.getUsers);
+    this.middleware();
   }
 
 
@@ -50,9 +54,9 @@ class Server{
     });
 }
 
-  private router(){
-      this.app.use(this.userRouter.getUserRouter);
-  }
+  // private router(){
+  //     this.app.use(this.userRouter.getUserRouter);
+  // }
 
 }
 

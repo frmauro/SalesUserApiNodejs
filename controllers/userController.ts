@@ -121,41 +121,41 @@ import TYPES from '../types';
   }
 
 
-  // update(): User{
+  update(): User{
 
-  //   var _id = this._req.body._id;
-  //   // var name = this.req.body.name;
-  //   // var email = this.req.body.email;
-  //   // var password = this.req.body.password;
-  //   // var userType = this.req.body.userType;
-  //   // var status = this.req.body.status;
+    var _id = this._req.body._id;
+    // var name = this.req.body.name;
+    // var email = this.req.body.email;
+    // var password = this.req.body.password;
+    // var userType = this.req.body.userType;
+    // var status = this.req.body.status;
 
-  //   const userMongoose = new UserMongoose();
-  //   const model = userMongoose.getUserModel;
-  //   const userSchema = userMongoose.getUserSchema;
+    const userMongoose = new UserMongoose();
+    const model = userMongoose.getUserModel;
+    const userSchema = userMongoose.getUserSchema;
 
-  //   var users = model('users', userSchema, 'users');
+    var users = model('users', userSchema, 'users');
 
-  //       return users.findByIdAndUpdate(
-  //             _id,
-  //             this._req.body,
-  //             // an option that asks mongoose to return the updated version 
-  //             // of the document instead of the pre-updated one.
-  //             {new: true},
-  //             // the callback function
-  //             (err: any, userdb: any) => {
-  //             // Handle any possible database errors
-  //                 if (err){
-  //                   //this.res.status(500).send(err);
-  //                   return new User('', '', '', '', '', '');
-  //                 } 
-  //                 let userdbJson = this._res.json(userdb);
-  //                 let user = fromJSON(userdbJson);
-  //                 return user;
-  //             }
-  //         )
+        return users.findByIdAndUpdate(
+              _id,
+              this._req.body,
+              // an option that asks mongoose to return the updated version 
+              // of the document instead of the pre-updated one.
+              {new: true},
+              // the callback function
+              (err: any, userdb: any) => {
+              // Handle any possible database errors
+                  if (err){
+                    //this.res.status(500).send(err);
+                    return new User('', '', '', '', '', '');
+                  } 
+                  let userdbJson = this._res.json(userdb);
+                  let user = fromJSON(userdbJson);
+                  return user;
+              }
+          )
   
-  // }
+  }
 
   
   // static fromJSON(serialized : string) : User {

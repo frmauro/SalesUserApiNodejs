@@ -14,10 +14,11 @@ class Index {
     }
     createDependencies() {
         const userController = di_container_1.default.get(types_1.default.IUserController);
-        this.createServer(userController);
+        const userRouter = di_container_1.default.get(types_1.default.IUserRouter);
+        this.createServer(userController, userRouter);
     }
-    createServer(userController) {
-        var server = new server_1.default(userController);
+    createServer(userController, userRouter) {
+        var server = new server_1.default(userController, userRouter);
         server.app.listen(this.port);
         console.log(`Server listening at port: ${this.port}`);
     }

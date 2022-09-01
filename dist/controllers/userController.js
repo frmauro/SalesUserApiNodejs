@@ -12,7 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const proto_loader_1 = require("@grpc/proto-loader");
 const userMongosse_1 = __importDefault(require("../models/DB/userMongosse"));
+const user_1 = __importDefault(require("../models/user"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const jwtSecretKey_1 = __importDefault(require("../config/jwtSecretKey"));
 const inversify_1 = require("inversify");
@@ -105,6 +107,33 @@ let UserController = class UserController {
                     this._res.json("user exists");
                 }
             }
+        });
+    }
+    update() {
+        var _id = this._req.body._id;
+        // var name = this.req.body.name;
+        // var email = this.req.body.email;
+        // var password = this.req.body.password;
+        // var userType = this.req.body.userType;
+        // var status = this.req.body.status;
+        const userMongoose = new userMongosse_1.default();
+        const model = userMongoose.getUserModel;
+        const userSchema = userMongoose.getUserSchema;
+        var users = model('users', userSchema, 'users');
+        return users.findByIdAndUpdate(_id, this._req.body, 
+        // an option that asks mongoose to return the updated version 
+        // of the document instead of the pre-updated one.
+        { new: true }, 
+        // the callback function
+        (err, userdb) => {
+            // Handle any possible database errors
+            if (err) {
+                //this.res.status(500).send(err);
+                return new user_1.default('', '', '', '', '', '');
+            }
+            let userdbJson = this._res.json(userdb);
+            let user = (0, proto_loader_1.fromJSON)(userdbJson);
+            return user;
         });
     }
 };

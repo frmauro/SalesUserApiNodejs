@@ -4,7 +4,7 @@ export interface IUserController{
     index(): string
     findByEmailAndPassword(): string
     create(): void
-    //update(): User
+    update(): User
     setRequest(request: any): void
     SetResponse(response: any): void
 }
