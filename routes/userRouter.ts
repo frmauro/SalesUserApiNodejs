@@ -1,20 +1,19 @@
 import express, { IRouter, Router } from 'express';
 import { injectable } from 'inversify';
 import { IUserController } from '../controllers/IUserController';
-import UserController from '../controllers/userController';
+import userController from '../controllers/userController';
 import { IUserRouter } from './IUserRouter';
 
 //@injectable()
 class UserRouter  {
-    _userController: any;
-     public router: any;
+     router = Router()
 
-    constructor(
-        userController: UserController
-    ){
-        this._userController = userController;
-        this.router = express.Router();
-        this.getUsers;
+    constructor(){
+        this.initRoutes();
+    }
+
+    initRoutes() {
+        this.router.get('/users', userController.index)
     }
     // SetRouter(router: IRouter): void {
     //     this.router = router; 
@@ -30,32 +29,32 @@ class UserRouter  {
     // }
 
 
-    getUsers(): void  {
-         this.router.get('/users', () =>{
-                    return this._userController.index();
-                });
-    }
+    // getUsers(): void  {
+    //      this.router.get('/users', () =>{
+    //                 return this._userController.index();
+    //             });
+    // }
 
-    findByEmailAndPassword(): void {
-         this.router.post('/user', () => {
-                return this._userController.findByEmailAndPassword();
-        });
-    }
+    // findByEmailAndPassword(): void {
+    //      this.router.post('/user', () => {
+    //             return this._userController.findByEmailAndPassword();
+    //     });
+    // }
 
-    create(): void {
-        this.router.post('/create', () => {
-             this._userController.create();
-        });
-    } 
+    // create(): void {
+    //     this.router.post('/create', () => {
+    //          this._userController.create();
+    //     });
+    // } 
 
 
-    update(): void {
-        this.router.put('/user', () => {
-            return this._userController.update();
-        });
-    }
+    // update(): void {
+    //     this.router.put('/user', () => {
+    //         return this._userController.update();
+    //     });
+    // }
 }
 
-export default UserRouter;
+export default new UserRouter();
 
 

@@ -19,10 +19,8 @@ import { IRoute, IRouter } from 'express';
   jwtSecretKey: JwtSecretKey = new JwtSecretKey();
   //private _userController: IUserController;
 
-   constructor(app: any
-   ){
+   constructor(){
      //this._userController = userController;
-     this._app = app;
    }
 
   //  public setRequest(request: any): void {
@@ -162,18 +160,18 @@ import { IRoute, IRouter } from 'express';
   }
 
   
-  // static fromJSON(serialized : string) : User {
-  //   const user : ReturnType<() => User> = JSON.parse(serialized);
-  //   return new User(
-  //       user.name,
-  //       user.email,
-  //       user.password,
-  //       user.status,
-  //       user.token,
-  //       user.userType
-  //   )
-//}
+    static fromJSON(serialized : string) : User {
+      const user : ReturnType<() => User> = JSON.parse(serialized);
+      return new User(
+          user.name,
+          user.email,
+          user.password,
+          user.status,
+          user.token,
+          user.userType
+      )
+  }
 
 } 
 
-export default UserController;
+export default new UserController();

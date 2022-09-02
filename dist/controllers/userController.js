@@ -12,10 +12,9 @@ require("reflect-metadata");
 //@injectable()
 class UserController {
     //private _userController: IUserController;
-    constructor(app) {
+    constructor() {
         this.jwtSecretKey = new jwtSecretKey_1.default();
         //this._userController = userController;
-        this._app = app;
     }
     //  public setRequest(request: any): void {
     //   this._req = request;
@@ -126,6 +125,10 @@ class UserController {
             return user;
         });
     }
+    static fromJSON(serialized) {
+        const user = JSON.parse(serialized);
+        return new user_1.default(user.name, user.email, user.password, user.status, user.token, user.userType);
+    }
 }
-exports.default = UserController;
+exports.default = new UserController();
 //# sourceMappingURL=userController.js.map

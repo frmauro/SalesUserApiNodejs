@@ -1,33 +1,17 @@
-import { createServer } from "http";
+
 import Server from "./config/server";
-import { IUserController } from "./controllers/IUserController";
-import UserController from "./controllers/userController";
-import container from "./di-container";
-import { IUserRouter } from "./routes/IUserRouter";
-import UserRouter from "./routes/userRouter";
-import TYPES from "./types";
 
 
 export class Index{
         
-        
-        port: Number = 8083;
+        port: number = 8083;
 
         constructor(){
-                //this.createDependencies();
-                this.createServer();
+             this.createServer();
         }
 
-
-        createDependencies(){
-                //const userController = container.get<IUserController>(TYPES.IUserController);
-                //const userRouter = container.get<IUserRouter>(TYPES.IUserRouter);
-                //this.createServer(userController, userRouter);
-        }
         createServer(): void{
-                var server: Server = new Server();
-                //server.app.use(UserRouter);
-                server.app.listen(this.port);
+                Server.listen(this.port);
                 console.log(`Server listening at port: ${this.port}`);
         }
 

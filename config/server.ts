@@ -6,8 +6,8 @@ import { IUserController } from "../controllers/IUserController";
 import { IUserRouter } from "../routes/IUserRouter";
 import { IServer } from "./IServer";
 import { injectable } from "inversify";
-import UserController from "../controllers/userController";
-import UserRouter from "../routes/userRouter";
+//import userController from "../controllers/userController";
+import userRouter from "../routes/userRouter";
 //import swaggerUi from 'swagger-ui-express';
 //import swaggerDocument from '../swagger.json';
 
@@ -19,56 +19,51 @@ import UserRouter from "../routes/userRouter";
  
 class Server{
 
-  public app = express.application;
-  //userRouter: IUserRouter;
-  //userController: IUserController;
-  
+  public express = express.application;
+ 
 
   constructor(){
-    this.app = express();
-    const userController = new UserController(this.app);
-    const userRouter = new UserRouter(userController);
-
-    //this.userController = userController;
-    //this.userController.setRequest(express.request);
-    //this.userController.SetResponse(express.response);
-    //this.userRouter = userRouter;
-    //this.userRouter.SetController(this.userController);
-    //this.userRouter.SetRouter(router);
-    this.app.use(userRouter.router);
+    this.express = express();
+    //const userController = new UserController(this.app);
+    //const userRouter = new UserRouter(userController);
+    //this.app.use(userRouter.router);
     this.middleware();
+    this.routes();
   }
 
+    middleware(){
 
-  private middleware(){
+      this.express.use(bodyParser.urlencoded({extended:true}));
+      this.express.use(bodyParser.json);
 
-    this.app.use(bodyParser.urlencoded({extended:true}));
-    this.app.use(bodyParser.json);
+      // CORS ************
+      this.express.use(cors)
+      const allowedOrigins = ['*'];
+      const options: cors.CorsOptions = {
+      origin: allowedOrigins
+      };
+      this.express.use(cors(options));
+      // ******************
 
-    // CORS ************
-    this.app.use(cors)
-    const allowedOrigins = ['*'];
-    const options: cors.CorsOptions = {
-    origin: allowedOrigins
-    };
-    this.app.use(cors(options));
-    // ******************
+      this.express.use(function(req, res, next) {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header('Access-Control-Allow-Methods', 'DELETE, PUT, GET, POST');
+      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+      next();
+      });
+  }
 
-    this.app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header('Access-Control-Allow-Methods', 'DELETE, PUT, GET, POST');
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-    });
+  routes() {
+    this.express.use(userRouter.router);
+  }
+
+  listen(port: number) {
+    this.express.listen(port);
+  }
+
 }
 
-  // private router(){
-  //     this.app.use(this.userRouter.getUserRouter);
-  // }
-
-}
-
-export default Server;
+export default new Server();
 
 
 //app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
