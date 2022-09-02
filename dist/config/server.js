@@ -9,6 +9,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 //import userController from "../controllers/userController";
 const userRouter_1 = __importDefault(require("../routes/userRouter"));
+const testRouter_1 = __importDefault(require("../routes/testRouter"));
 //import swaggerUi from 'swagger-ui-express';
 //import swaggerDocument from '../swagger.json';
 //var consign = require('consign');
@@ -18,9 +19,6 @@ class Server {
     constructor() {
         this.express = express_1.default.application;
         this.express = (0, express_1.default)();
-        //const userController = new UserController(this.app);
-        //const userRouter = new UserRouter(userController);
-        //this.app.use(userRouter.router);
         this.middleware();
         this.routes();
     }
@@ -44,6 +42,7 @@ class Server {
     }
     routes() {
         this.express.use(userRouter_1.default.router);
+        this.express.use(testRouter_1.default.router);
     }
     listen(port) {
         this.express.listen(port);

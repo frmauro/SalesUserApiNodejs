@@ -8,6 +8,7 @@ import { IServer } from "./IServer";
 import { injectable } from "inversify";
 //import userController from "../controllers/userController";
 import userRouter from "../routes/userRouter";
+import testRouter from "../routes/testRouter";
 //import swaggerUi from 'swagger-ui-express';
 //import swaggerDocument from '../swagger.json';
 
@@ -24,9 +25,6 @@ class Server{
 
   constructor(){
     this.express = express();
-    //const userController = new UserController(this.app);
-    //const userRouter = new UserRouter(userController);
-    //this.app.use(userRouter.router);
     this.middleware();
     this.routes();
   }
@@ -55,6 +53,7 @@ class Server{
 
   routes() {
     this.express.use(userRouter.router);
+    this.express.use(testRouter.router);
   }
 
   listen(port: number) {

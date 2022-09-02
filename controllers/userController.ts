@@ -7,32 +7,17 @@ import { IUserController } from './IUserController';
 import { injectable, inject } from 'inversify';
 import "reflect-metadata";
 import TYPES from '../types';
-import { IRoute, IRouter } from 'express';
+import { Request, Response } from 'express';
 
  //@injectable()
  class UserController  {
-  //_req: any;
-  //_res: any;
-  _app: any;
-  _router: any;
 
   jwtSecretKey: JwtSecretKey = new JwtSecretKey();
-  //private _userController: IUserController;
 
-   constructor(){
-     //this._userController = userController;
-   }
+   constructor(){}
 
-  //  public setRequest(request: any): void {
-  //   this._req = request;
-  //    //throw new Error('Method not implemented.');
-  //  }
 
-  //  public SetResponse(value: any) {
-  //   this._res = value;
-  //  }
-
-   index(): string {
+   index(res: Response): string {
     const userMongoose = new UserMongoose();
     const model = userMongoose.getUserModel;
     const userSchema = userMongoose.getUserSchema;
@@ -42,20 +27,20 @@ import { IRoute, IRouter } from 'express';
           if (err) {
             console.log(err);
           } else {
-            return this._app._res.json(result);
+            return res.json(result);
           }
         });
     }
 
 
-  findByEmailAndPassword(): string{
+  findByEmailAndPassword(req: Request, res: Response): string{
     
       const userMongoose = new UserMongoose();
       const model = userMongoose.getUserModel;
       const userSchema = userMongoose.getUserSchema;
 
-      var email = this._app._req.body.email;
-      var password = this._app._req.body.password;
+      var email = req.body.email;
+      var password = req.body.password;
       var users = model('users', userSchema, 'users');
 
      return users.find({email: email, password: password}, (err: any, result: any) => {
@@ -65,12 +50,12 @@ import { IRoute, IRouter } from 'express';
                     }
                     else {
                         if (result.length === 0){
-                          this._app._res.json("user not exists");
+                          res.json("user not exists");
                           return "user not exists";
                         }else{
                           let token = jwt.sign({password: password},  this.jwtSecretKey.getSecretKey,{ expiresIn: '1h' });
                           result[0].token = token;
-                          return this._app._res.json(result);
+                          return res.json(result);
                         }
                     }
           })
@@ -78,13 +63,13 @@ import { IRoute, IRouter } from 'express';
 
 
 
-  create(): void{
+  create(req: Request, res: Response): void{
 
-    var name = this._app._req.body.name;
-    var email = this._app._req.body.email;
-    var password = this._app._req.body.password;
-    var userType = this._app._req.body.userType;
-    var status = this._app._req.body.status;
+    var name = req.body.name;
+    var email = req.body.email;
+    var password = req.body.password;
+    var userType = req.body.userType;
+    var status = req.body.status;
 
     const userMongoose = new UserMongoose();
     const model = userMongoose.getUserModel;
@@ -109,12 +94,12 @@ import { IRoute, IRouter } from 'express';
                                 return err;
                             }
                             else {
-                                this._app._res.json(result);
+                                res.json(result);
                             }
                         });
 
               }else{
-                this._app._res.json("user exists");
+                res.json("user exists");
               }
 
           }
@@ -123,9 +108,9 @@ import { IRoute, IRouter } from 'express';
   }
 
 
-  update(): User{
+  update(req: Request, res: Response): User{
 
-    var _id = this._app._req.body._id;
+    var _id = req.body._id;
     // var name = this.req.body.name;
     // var email = this.req.body.email;
     // var password = this.req.body.password;
@@ -140,7 +125,7 @@ import { IRoute, IRouter } from 'express';
 
         return users.findByIdAndUpdate(
               _id,
-              this._app._req.body,
+              req.body,
               // an option that asks mongoose to return the updated version 
               // of the document instead of the pre-updated one.
               {new: true},
@@ -151,8 +136,9 @@ import { IRoute, IRouter } from 'express';
                     //this.res.status(500).send(err);
                     return new User('', '', '', '', '', '');
                   } 
-                  let userdbJson = this._app._res.json(userdb);
-                  let user = fromJSON(userdbJson);
+                  //let userdbJson = res.json(userdb);
+                  let userdbJson = JSON.stringify(userdb);
+                  let user = UserController.FromJSON(userdbJson);
                   return user;
               }
           )
@@ -160,7 +146,7 @@ import { IRoute, IRouter } from 'express';
   }
 
   
-    static fromJSON(serialized : string) : User {
+    static FromJSON(serialized : string) : User {
       const user : ReturnType<() => User> = JSON.parse(serialized);
       return new User(
           user.name,
