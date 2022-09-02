@@ -1,41 +1,54 @@
 
-import Server from "./config/server";
+//import { Server }  from "./config/server";
+//new Server().listen(8083);
 
+import express from "express";
+import { router } from "./routes/testRouter";
+const app = express();
 
-export class Index{
+// app.get('/test', (req, res) => {
+//      res.send('Hello express TS');
+// });
+
+app.use(router);
+const port  = process.env.PORT || 8083;
+app.listen(port, () => console.log('O servidor HTTP esta escutando a porta: ' + port));
+//console.log('O servidor HTTP esta escutando a porta: ' + port);
+
+// export class Index{
         
-        port: number = 8083;
+//         port: number = 8083;
 
-        constructor(){
-             this.createServer();
-        }
+//         constructor(){
+//              this.createServer();
+//         }
 
-        createServer(): void{
-                Server.listen(this.port);
-                console.log(`Server listening at port: ${this.port}`);
-        }
+//         createServer(): void{
+//                 Server.listen(this.port);
+//                 console.log(`Server listening at port: ${this.port}`);
+//         }
 
-        // constructor(){
-        //         this.userController = container.get<IUserController>(TYPES.IUserController);
-        //         this.server = new Server(this.userController);
-        //         this.server.app.listen(this.port, () => {
-        //                 console.log(`Server listening at port: ${this.port}`);
-        //                 console.log('Server GRPC - running at http://0.0.0.0:50051');     
-        //         });
-        //  }
+//         // constructor(){
+//         //         this.userController = container.get<IUserController>(TYPES.IUserController);
+//         //         this.server = new Server(this.userController);
+//         //         this.server.app.listen(this.port, () => {
+//         //                 console.log(`Server listening at port: ${this.port}`);
+//         //                 console.log('Server GRPC - running at http://0.0.0.0:50051');     
+//         //         });
+//         //  }
 
         
-        // GRPC *******************************************************************
-        // app.listen(port, function() {
-        //         console.log('Server GRPC - running at http://0.0.0.0:50051')
-        //         var server =  app.grpc.userServiceGrpc.grpcservice(app);
-        //         server.start();
-        //         console.log('O servidor HTTP esta escutando a porta: ' + port);
-        // });
+//         // GRPC *******************************************************************
+//         // app.listen(port, function() {
+//         //         console.log('Server GRPC - running at http://0.0.0.0:50051')
+//         //         var server =  app.grpc.userServiceGrpc.grpcservice(app);
+//         //         server.start();
+//         //         console.log('O servidor HTTP esta escutando a porta: ' + port);
+//         // });
 
-}
+// }
 
-export default new Index();
+// export default new Index();
 
 
 

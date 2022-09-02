@@ -1,18 +1,28 @@
-import { Response, Router } from 'express';
+import { Router } from 'express';
 
-class TestRouter{
-    router = Router();
+const router: Router = Router(); 
 
-    constructor(){}
+router.get('/test', (req, res) => {
+   return res.send("test express router");
+});
 
-    initRoutes() {
-        this.router.get('/teste/', (res: Response) => {
-            return res.json('TESTE')
-        })
-    }
-}
+export { router }
+// class TestRouter{
+//     router: Router = Router()
 
-export default new TestRouter();
+//     public index(res: Response){
+//         return res.json({
+//             response: 'Hello World'
+//           });
+//     }
+
+//     constructor(){
+//         this.router.get('/test', this.index);
+//     }
+
+// }
+
+// export default new TestRouter();
 
 
 // module.exports = function(application) {
