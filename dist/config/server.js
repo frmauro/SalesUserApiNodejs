@@ -25,6 +25,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Server = void 0;
 const express_1 = __importStar(require("express"));
+//import userController from "../controllers/userController";
+//import userRouter from "../routes/userRouter";
 //import testRouter from "../routes/testRouter";
 //import swaggerUi from 'swagger-ui-express';
 //import swaggerDocument from '../swagger.json';

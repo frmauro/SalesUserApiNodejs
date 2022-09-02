@@ -4,7 +4,7 @@ import express, { json } from "express";
 import cors from 'cors'; 
 import { injectable } from "inversify";
 //import userController from "../controllers/userController";
-import userRouter from "../routes/userRouter";
+//import userRouter from "../routes/userRouter";
 //import testRouter from "../routes/testRouter";
 //import swaggerUi from 'swagger-ui-express';
 //import swaggerDocument from '../swagger.json';

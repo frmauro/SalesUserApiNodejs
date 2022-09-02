@@ -1,12 +1,12 @@
 import { Router } from 'express';
 
-const router: Router = Router(); 
+const testrouter: Router = Router(); 
 
-router.get('/test', (req, res) => {
+testrouter.get('/test', (req, res) => {
    return res.send("test express router");
 });
 
-export { router }
+export { testrouter }
 // class TestRouter{
 //     router: Router = Router()
 

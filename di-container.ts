@@ -2,7 +2,7 @@ import { Container } from "inversify";
 import TYPES from "./types";
 import UserController from "./controllers/userController";
 import { IUserController } from "./controllers/IUserController";
-import UserRouter from "./routes/userRouter";
+//import UserRouter from "./routes/userRouter";
 import { IUserRouter } from "./routes/IUserRouter";
 
 var container = new Container();

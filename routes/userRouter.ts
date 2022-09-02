@@ -1,23 +1,30 @@
-import express, { IRouter, Router } from 'express';
-import { injectable } from 'inversify';
-import { IUserController } from '../controllers/IUserController';
+//import express, { IRouter, Router } from 'express';
+//import { injectable } from 'inversify';
+import { Router } from 'express';
 import userController from '../controllers/userController';
-import { IUserRouter } from './IUserRouter';
 
-//@injectable()
-class UserRouter  {
-     router = Router()
+const userrouter: Router = Router();
 
-    constructor(){
-        this.initRoutes();
-    }
+userrouter.get('/users', (req, res) => {
+    return res.json(userController.index);
+ });
+export { userrouter };
 
-    initRoutes() {
-        this.router.get('/users', userController.index)
-    }
 
-}
+// //@injectable()
+// class UserRouter  {
+//      router = Router()
 
-export default new UserRouter();
+//     constructor(){
+//         this.initRoutes();
+//     }
+
+//     initRoutes() {
+//         this.router.get('/users', userController.index)
+//     }
+
+// }
+
+// export default new UserRouter();
 
 
