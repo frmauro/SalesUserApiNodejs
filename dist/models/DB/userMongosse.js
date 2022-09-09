@@ -27,6 +27,7 @@ const mongoose_1 = require("mongoose");
 const dbConnect = __importStar(require("../../config/mongodbConnection.json"));
 class UserMongoose {
     constructor() {
+        this.connect();
     }
     get getUserSchema() {
         return this._userSchema;

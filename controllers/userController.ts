@@ -12,23 +12,31 @@ import { Request, Response } from 'express';
  //@injectable()
  class UserController  {
 
+  _listUsers = new Array<User>();
+
   jwtSecretKey: JwtSecretKey = new JwtSecretKey();
 
    constructor(){}
 
 
-   index(res: Response)  {
+   async index()  {
     const userMongoose = new UserMongoose();
-    userMongoose.connect();
     const model = userMongoose.getUserModel;
     const userSchema = userMongoose.getUserSchema;
     var users = model('users', userSchema, 'users');
 
-    return users.find({}, (err: any, result: any) => {
+    return await users.find({}, (err: any, result: any) => {
           if (err) {
             console.log(err);
           } else {
-            return res.json(result);
+            //  for (let index = 0; index < result.length; index++) {
+            //    const element = result[index];
+            //    const doc = element._doc;
+            //    let user: User = new User(doc._id, doc.name, doc.email, doc.password, doc.token, doc.userTyle, doc.status);
+            //    this._listUsers.push(user);
+            //  }
+
+            return result;
           }
         });
     }

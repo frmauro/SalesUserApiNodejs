@@ -5,8 +5,9 @@ import userController from '../controllers/userController';
 
 const userrouter = Router();
 
-userrouter.get('/', (req, res) => {
-    return res.status(200).json(userController.index(res));
+userrouter.get('/', async (req, res) => {
+    const listUsers = await userController.index();
+    return res.status(200).json(listUsers);
  });
 export default userrouter ;
 

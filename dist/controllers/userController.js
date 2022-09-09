@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -10,21 +19,29 @@ require("reflect-metadata");
 //@injectable()
 class UserController {
     constructor() {
+        this._listUsers = new Array();
         this.jwtSecretKey = new jwtSecretKey_1.default();
     }
-    index(res) {
-        const userMongoose = new userMongosse_1.default();
-        userMongoose.connect();
-        const model = userMongoose.getUserModel;
-        const userSchema = userMongoose.getUserSchema;
-        var users = model('users', userSchema, 'users');
-        return users.find({}, (err, result) => {
-            if (err) {
-                console.log(err);
-            }
-            else {
-                return res.json(result);
-            }
+    index() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const userMongoose = new userMongosse_1.default();
+            const model = userMongoose.getUserModel;
+            const userSchema = userMongoose.getUserSchema;
+            var users = model('users', userSchema, 'users');
+            return yield users.find({}, (err, result) => {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    //  for (let index = 0; index < result.length; index++) {
+                    //    const element = result[index];
+                    //    const doc = element._doc;
+                    //    let user: User = new User(doc._id, doc.name, doc.email, doc.password, doc.token, doc.userTyle, doc.status);
+                    //    this._listUsers.push(user);
+                    //  }
+                    return result;
+                }
+            });
         });
     }
     // findByEmailAndPassword(req: Request, res: Response): string{

@@ -6,6 +6,7 @@ class UserMongoose {
      _userSchema: any;
     
     constructor(){
+        this.connect();
     }
 
 
@@ -17,7 +18,7 @@ class UserMongoose {
         return model;
     }
 
-      public connect() {
+      connect() {
 
         var db = { uri : dbConnect.uri };
 
