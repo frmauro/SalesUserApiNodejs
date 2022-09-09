@@ -2,19 +2,17 @@
 //import { Server }  from "./config/server";
 //new Server().listen(8083);
 
-import express, { json } from "express";
-import { testrouter } from "./routes/testRouter";
-import { userrouter } from "./routes/userRouter";
+import express from "express";
+import  routes  from './routes/routes';
 const app = express();
 
 // app.get('/test', (req, res) => {
 //      res.send('Hello express TS');
 // });
 
-app.use(json);
-app.use(testrouter);
-app.use(userrouter);
-
+app.use(express.json());
+app.use(routes);
+//app.use(userrouter);
 
 const port  = process.env.PORT || 8083;
 app.listen(port, () => console.log('O servidor HTTP esta escutando a porta: ' + port));
