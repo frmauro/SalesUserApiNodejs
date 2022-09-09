@@ -1,5 +1,5 @@
 import { fromJSON } from '@grpc/proto-loader';
-//import UserMongoose from '../models/DB/userMongosse'
+import UserMongoose from '../models/DB/userMongosse'
 import User from '../models/user';
 import jwt from 'jsonwebtoken';
 import JwtSecretKey from '../config/jwtSecretKey';
@@ -17,20 +17,21 @@ import { Request, Response } from 'express';
    constructor(){}
 
 
-  //  index(res: Response)  {
-  //   const userMongoose = new UserMongoose();
-  //   const model = userMongoose.getUserModel;
-  //   const userSchema = userMongoose.getUserSchema;
-  //   var users = model('users', userSchema, 'users');
+   index(res: Response)  {
+    const userMongoose = new UserMongoose();
+    userMongoose.connect();
+    const model = userMongoose.getUserModel;
+    const userSchema = userMongoose.getUserSchema;
+    var users = model('users', userSchema, 'users');
 
-  //   return users.find({}, (err: any, result: any) => {
-  //         if (err) {
-  //           console.log(err);
-  //         } else {
-  //           return res.json(result);
-  //         }
-  //       });
-  //   }
+    return users.find({}, (err: any, result: any) => {
+          if (err) {
+            console.log(err);
+          } else {
+            return res.json(result);
+          }
+        });
+    }
 
 
   // findByEmailAndPassword(req: Request, res: Response): string{

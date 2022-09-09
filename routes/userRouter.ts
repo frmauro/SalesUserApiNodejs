@@ -3,12 +3,12 @@
 import { Router } from 'express';
 import userController from '../controllers/userController';
 
-const userrouter: Router = Router();
+const userrouter = Router();
 
-// userrouter.get('/users', (req, res) => {
-//     return res.status(200).send(userController.index);
-//  });
-export { userrouter };
+userrouter.get('/', (req, res) => {
+    return res.status(200).json(userController.index(res));
+ });
+export default userrouter ;
 
 
 // //@injectable()

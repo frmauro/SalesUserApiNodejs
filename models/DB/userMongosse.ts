@@ -17,7 +17,7 @@ class UserMongoose {
         return model;
     }
 
-        connect() {
+      public connect() {
 
         var db = { uri : dbConnect.uri };
 

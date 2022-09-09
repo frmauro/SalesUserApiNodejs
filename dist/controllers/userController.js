@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-//import UserMongoose from '../models/DB/userMongosse'
+const userMongosse_1 = __importDefault(require("../models/DB/userMongosse"));
 const user_1 = __importDefault(require("../models/user"));
 const jwtSecretKey_1 = __importDefault(require("../config/jwtSecretKey"));
 require("reflect-metadata");
@@ -12,19 +12,21 @@ class UserController {
     constructor() {
         this.jwtSecretKey = new jwtSecretKey_1.default();
     }
-    //  index(res: Response)  {
-    //   const userMongoose = new UserMongoose();
-    //   const model = userMongoose.getUserModel;
-    //   const userSchema = userMongoose.getUserSchema;
-    //   var users = model('users', userSchema, 'users');
-    //   return users.find({}, (err: any, result: any) => {
-    //         if (err) {
-    //           console.log(err);
-    //         } else {
-    //           return res.json(result);
-    //         }
-    //       });
-    //   }
+    index(res) {
+        const userMongoose = new userMongosse_1.default();
+        userMongoose.connect();
+        const model = userMongoose.getUserModel;
+        const userSchema = userMongoose.getUserSchema;
+        var users = model('users', userSchema, 'users');
+        return users.find({}, (err, result) => {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                return res.json(result);
+            }
+        });
+    }
     // findByEmailAndPassword(req: Request, res: Response): string{
     //     const userMongoose = new UserMongoose();
     //     const model = userMongoose.getUserModel;
