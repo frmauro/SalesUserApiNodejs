@@ -136,7 +136,7 @@ class UserController {
     // }
     static FromJSON(serialized) {
         const user = JSON.parse(serialized);
-        return new user_1.default(user.name, user.email, user.password, user.status, user.token, user.userType);
+        return new user_1.default(user.id, user.name, user.email, user.password, user.status, user.token, user.userType);
     }
 }
 exports.default = new UserController();

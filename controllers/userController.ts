@@ -158,6 +158,7 @@ import { Request, Response } from 'express';
     static FromJSON(serialized : string) : User {
       const user : ReturnType<() => User> = JSON.parse(serialized);
       return new User(
+          user.id,
           user.name,
           user.email,
           user.password,
