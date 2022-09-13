@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const userMongosse_1 = __importDefault(require("../models/DB/userMongosse"));
 const user_1 = __importDefault(require("../models/user"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const jwtSecretKey_1 = __importDefault(require("../config/jwtSecretKey"));
 require("reflect-metadata");
 //@injectable()
@@ -44,30 +45,33 @@ class UserController {
             });
         });
     }
-    // findByEmailAndPassword(req: Request, res: Response): string{
-    //     const userMongoose = new UserMongoose();
-    //     const model = userMongoose.getUserModel;
-    //     const userSchema = userMongoose.getUserSchema;
-    //     var email = req.body.email;
-    //     var password = req.body.password;
-    //     var users = model('users', userSchema, 'users');
-    //    return users.find({email: email, password: password}, (err: any, result: any) => {
-    //                     if (err) {
-    //                       console.log("Error! " + err.message);
-    //                       return err;
-    //                   }
-    //                   else {
-    //                       if (result.length === 0){
-    //                         res.json("user not exists");
-    //                         return "user not exists";
-    //                       }else{
-    //                         let token = jwt.sign({password: password},  this.jwtSecretKey.getSecretKey,{ expiresIn: '1h' });
-    //                         result[0].token = token;
-    //                         return res.json(result);
-    //                       }
-    //                   }
-    //         })
-    // }
+    findByEmailAndPassword(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const userMongoose = new userMongosse_1.default();
+            const model = userMongoose.getUserModel;
+            const userSchema = userMongoose.getUserSchema;
+            var email = req.body.email;
+            var password = req.body.password;
+            var users = model('users', userSchema, 'users');
+            return yield users.find({ email: email, password: password }, (err, result) => {
+                if (err) {
+                    console.log("Error! " + err.message);
+                    return err;
+                }
+                else {
+                    if (result.length === 0) {
+                        res.json("user not exists");
+                        return "user not exists";
+                    }
+                    else {
+                        let token = jsonwebtoken_1.default.sign({ password: password }, this.jwtSecretKey.getSecretKey, { expiresIn: '1h' });
+                        result[0].token = token;
+                        return result;
+                    }
+                }
+            });
+        });
+    }
     // create(req: Request, res: Response): void{
     //   var name = req.body.name;
     //   var email = req.body.email;

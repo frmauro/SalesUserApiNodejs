@@ -42,33 +42,33 @@ import { Request, Response } from 'express';
     }
 
 
-  // findByEmailAndPassword(req: Request, res: Response): string{
+  async findByEmailAndPassword(req: Request, res: Response): Promise<string>{
     
-  //     const userMongoose = new UserMongoose();
-  //     const model = userMongoose.getUserModel;
-  //     const userSchema = userMongoose.getUserSchema;
+      const userMongoose = new UserMongoose();
+      const model = userMongoose.getUserModel;
+      const userSchema = userMongoose.getUserSchema;
 
-  //     var email = req.body.email;
-  //     var password = req.body.password;
-  //     var users = model('users', userSchema, 'users');
+      var email = req.body.email;
+      var password = req.body.password;
+      var users = model('users', userSchema, 'users');
 
-  //    return users.find({email: email, password: password}, (err: any, result: any) => {
-  //                     if (err) {
-  //                       console.log("Error! " + err.message);
-  //                       return err;
-  //                   }
-  //                   else {
-  //                       if (result.length === 0){
-  //                         res.json("user not exists");
-  //                         return "user not exists";
-  //                       }else{
-  //                         let token = jwt.sign({password: password},  this.jwtSecretKey.getSecretKey,{ expiresIn: '1h' });
-  //                         result[0].token = token;
-  //                         return res.json(result);
-  //                       }
-  //                   }
-  //         })
-  // }
+     return await users.find({email: email, password: password}, (err: any, result: any) => {
+                      if (err) {
+                        console.log("Error! " + err.message);
+                        return err;
+                    }
+                    else {
+                        if (result.length === 0){
+                          res.json("user not exists");
+                          return "user not exists";
+                        }else{
+                          let token = jwt.sign({password: password},  this.jwtSecretKey.getSecretKey,{ expiresIn: '1h' });
+                          result[0].token = token;
+                          return result;
+                        }
+                    }
+          })
+  }
 
 
 

@@ -9,7 +9,9 @@ userrouter.get('/', async (req, res) => {
     const listUsers = await userController.index();
     return res.status(200).json(listUsers);
  });
-export default userrouter ;
+
+
+export default userrouter;
 
 
 // //@injectable()
