@@ -25,6 +25,10 @@ userrouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* (
     const result = yield userController_1.default.create(req, res);
     return res.status(200).json(result);
 }));
+userrouter.put('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield userController_1.default.update(req, res);
+    return res.status(200).json(result);
+}));
 exports.default = userrouter;
 // //@injectable()
 // class UserRouter  {

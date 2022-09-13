@@ -110,37 +110,36 @@ class UserController {
             });
         });
     }
-    // update(req: Request, res: Response): User{
-    //   var _id = req.body._id;
-    //   // var name = this.req.body.name;
-    //   // var email = this.req.body.email;
-    //   // var password = this.req.body.password;
-    //   // var userType = this.req.body.userType;
-    //   // var status = this.req.body.status;
-    //   const userMongoose = new UserMongoose();
-    //   const model = userMongoose.getUserModel;
-    //   const userSchema = userMongoose.getUserSchema;
-    //   var users = model('users', userSchema, 'users');
-    //       return users.findByIdAndUpdate(
-    //             _id,
-    //             req.body,
-    //             // an option that asks mongoose to return the updated version 
-    //             // of the document instead of the pre-updated one.
-    //             {new: true},
-    //             // the callback function
-    //             (err: any, userdb: any) => {
-    //             // Handle any possible database errors
-    //                 if (err){
-    //                   //this.res.status(500).send(err);
-    //                   return new User('', '', '', '', '', '');
-    //                 } 
-    //                 //let userdbJson = res.json(userdb);
-    //                 let userdbJson = JSON.stringify(userdb);
-    //                 let user = UserController.FromJSON(userdbJson);
-    //                 return user;
-    //             }
-    //         )
-    // }
+    update(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _id = req.body._id;
+            // var name = this.req.body.name;
+            // var email = this.req.body.email;
+            // var password = this.req.body.password;
+            // var userType = this.req.body.userType;
+            // var status = this.req.body.status;
+            const userMongoose = new userMongosse_1.default();
+            const model = userMongoose.getUserModel;
+            const userSchema = userMongoose.getUserSchema;
+            var users = model('users', userSchema, 'users');
+            return yield users.findByIdAndUpdate(_id, req.body, 
+            // an option that asks mongoose to return the updated version 
+            // of the document instead of the pre-updated one.
+            { new: true }, 
+            // the callback function
+            (err, userdb) => {
+                // Handle any possible database errors
+                if (err) {
+                    //this.res.status(500).send(err);
+                    return new user_1.default('', '', '', '', '', '', '');
+                }
+                //let userdbJson = res.json(userdb);
+                let userdbJson = JSON.stringify(userdb);
+                let user = UserController.FromJSON(userdbJson);
+                return user;
+            });
+        });
+    }
     static FromJSON(serialized) {
         const user = JSON.parse(serialized);
         return new user_1.default(user.id, user.name, user.email, user.password, user.status, user.token, user.userType);

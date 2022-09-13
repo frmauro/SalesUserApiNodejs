@@ -117,42 +117,42 @@ import { Request, Response } from 'express';
   }
 
 
-  // update(req: Request, res: Response): User{
+  async update(req: Request, res: Response): Promise<User>{
 
-  //   var _id = req.body._id;
-  //   // var name = this.req.body.name;
-  //   // var email = this.req.body.email;
-  //   // var password = this.req.body.password;
-  //   // var userType = this.req.body.userType;
-  //   // var status = this.req.body.status;
+    var _id = req.body._id;
+    // var name = this.req.body.name;
+    // var email = this.req.body.email;
+    // var password = this.req.body.password;
+    // var userType = this.req.body.userType;
+    // var status = this.req.body.status;
 
-  //   const userMongoose = new UserMongoose();
-  //   const model = userMongoose.getUserModel;
-  //   const userSchema = userMongoose.getUserSchema;
+    const userMongoose = new UserMongoose();
+    const model = userMongoose.getUserModel;
+    const userSchema = userMongoose.getUserSchema;
 
-  //   var users = model('users', userSchema, 'users');
+    var users = model('users', userSchema, 'users');
 
-  //       return users.findByIdAndUpdate(
-  //             _id,
-  //             req.body,
-  //             // an option that asks mongoose to return the updated version 
-  //             // of the document instead of the pre-updated one.
-  //             {new: true},
-  //             // the callback function
-  //             (err: any, userdb: any) => {
-  //             // Handle any possible database errors
-  //                 if (err){
-  //                   //this.res.status(500).send(err);
-  //                   return new User('', '', '', '', '', '');
-  //                 } 
-  //                 //let userdbJson = res.json(userdb);
-  //                 let userdbJson = JSON.stringify(userdb);
-  //                 let user = UserController.FromJSON(userdbJson);
-  //                 return user;
-  //             }
-  //         )
+       return await users.findByIdAndUpdate(
+              _id,
+              req.body,
+              // an option that asks mongoose to return the updated version 
+              // of the document instead of the pre-updated one.
+              {new: true},
+              // the callback function
+              (err: any, userdb: any) => {
+              // Handle any possible database errors
+                  if (err){
+                    //this.res.status(500).send(err);
+                    return new User('', '', '', '', '', '', '');
+                  } 
+                  //let userdbJson = res.json(userdb);
+                  let userdbJson = JSON.stringify(userdb);
+                  let user = UserController.FromJSON(userdbJson);
+                  return user;
+              }
+          )
   
-  // }
+  }
 
   
     static FromJSON(serialized : string) : User {

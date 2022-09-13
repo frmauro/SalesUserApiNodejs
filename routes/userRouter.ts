@@ -15,6 +15,14 @@ userrouter.get('/', async (req, res) => {
     const result = await userController.create(req, res);
     return res.status(200).json(result);
  });
+
+
+ userrouter.put('/', async (req, res) => {
+    const result = await userController.update(req, res);
+    return res.status(200).json(result);
+ });
+
+
 export default userrouter;
 
 

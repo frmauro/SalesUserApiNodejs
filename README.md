@@ -35,3 +35,11 @@ curl -X PUT -H "Content-Type: application/json" -d '{"_id": "611aa80245c2ed2212c
   // enviroment docker kubernates
   //var db = { uri : "mongodb://userdb:27017/ApiSalesUser" };
 
+
+
+## First, you would want to know which process is using port 3000
+sudo lsof -i :8083
+
+## this will list all PID listening on this port, once you have the PID you can terminate it with the following:
+kill -9 {PID}
+
