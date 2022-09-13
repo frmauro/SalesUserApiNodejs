@@ -21,6 +21,10 @@ userrouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     const listUsers = yield userController_1.default.index();
     return res.status(200).json(listUsers);
 }));
+userrouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield userController_1.default.create(req, res);
+    return res.status(200).json(result);
+}));
 exports.default = userrouter;
 // //@injectable()
 // class UserRouter  {

@@ -8,6 +8,7 @@ const routes = Router();
 
 routes.use('/test', testrouter);
 routes.use('/users', userrouter);
+//routes.use('/users/create', userrouter);
 routes.use('/autenticate', autenticateRouter);
 
 export default routes;

@@ -72,41 +72,44 @@ class UserController {
             });
         });
     }
-    // create(req: Request, res: Response): void{
-    //   var name = req.body.name;
-    //   var email = req.body.email;
-    //   var password = req.body.password;
-    //   var userType = req.body.userType;
-    //   var status = req.body.status;
-    //   const userMongoose = new UserMongoose();
-    //   const model = userMongoose.getUserModel;
-    //   const userSchema = userMongoose.getUserSchema;
-    //   var result = "POST 200OK - name: " + name + " email: " + email + " password: " + password + "  userType: " + userType + " status: " + status;
-    //   var users = model('users', userSchema, 'users');
-    //   //console.log(users);
-    //   users.find({email: email}, (err: any, result: any) => {
-    //           if (err) {
-    //             console.log("Error! " + err.message);
-    //             return err;
-    //         }
-    //         else {
-    //             if (result.length === 0){
-    //                   var user = new users({ name: name, email: email, password: password, status: status, token: '99999999999', userType: userType });
-    //                         user.save((err: any) => {
-    //                           if (err) {
-    //                               console.log("Error! " + err.message);
-    //                               return err;
-    //                           }
-    //                           else {
-    //                               res.json(result);
-    //                           }
-    //                       });
-    //             }else{
-    //               res.json("user exists");
-    //             }
-    //         }
-    //   })
-    // }
+    create(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var name = req.body.name;
+            var email = req.body.email;
+            var password = req.body.password;
+            var userType = req.body.userType;
+            var status = req.body.status;
+            const userMongoose = new userMongosse_1.default();
+            const model = userMongoose.getUserModel;
+            const userSchema = userMongoose.getUserSchema;
+            var result = "POST 200OK - name: " + name + " email: " + email + " password: " + password + "  userType: " + userType + " status: " + status;
+            var users = model('users', userSchema, 'users');
+            //console.log(users);
+            yield users.find({ email: email }, (err, result) => {
+                if (err) {
+                    console.log("Error! " + err.message);
+                    //return err;
+                }
+                else {
+                    if (result.length === 0) {
+                        var user = new users({ name: name, email: email, password: password, status: status, token: '99999999999', userType: userType });
+                        user.save((err) => {
+                            if (err) {
+                                console.log("Error! " + err.message);
+                                return err;
+                            }
+                            else {
+                                res.json(result);
+                            }
+                        });
+                    }
+                    else {
+                        res.json("user exists");
+                    }
+                }
+            });
+        });
+    }
     // update(req: Request, res: Response): User{
     //   var _id = req.body._id;
     //   // var name = this.req.body.name;

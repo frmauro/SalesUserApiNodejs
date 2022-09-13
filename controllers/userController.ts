@@ -72,49 +72,49 @@ import { Request, Response } from 'express';
 
 
 
-  // create(req: Request, res: Response): void{
+  async create(req: Request, res: Response): Promise<void>{
 
-  //   var name = req.body.name;
-  //   var email = req.body.email;
-  //   var password = req.body.password;
-  //   var userType = req.body.userType;
-  //   var status = req.body.status;
+    var name = req.body.name;
+    var email = req.body.email;
+    var password = req.body.password;
+    var userType = req.body.userType;
+    var status = req.body.status;
 
-  //   const userMongoose = new UserMongoose();
-  //   const model = userMongoose.getUserModel;
-  //   const userSchema = userMongoose.getUserSchema;
+    const userMongoose = new UserMongoose();
+    const model = userMongoose.getUserModel;
+    const userSchema = userMongoose.getUserSchema;
 
-  //   var result = "POST 200OK - name: " + name + " email: " + email + " password: " + password + "  userType: " + userType + " status: " + status;
+    var result = "POST 200OK - name: " + name + " email: " + email + " password: " + password + "  userType: " + userType + " status: " + status;
 
-  //   var users = model('users', userSchema, 'users');
-  //   //console.log(users);
+    var users = model('users', userSchema, 'users');
+    //console.log(users);
 
-  //   users.find({email: email}, (err: any, result: any) => {
-  //           if (err) {
-  //             console.log("Error! " + err.message);
-  //             return err;
-  //         }
-  //         else {
-  //             if (result.length === 0){
-  //                   var user = new users({ name: name, email: email, password: password, status: status, token: '99999999999', userType: userType });
-  //                         user.save((err: any) => {
-  //                           if (err) {
-  //                               console.log("Error! " + err.message);
-  //                               return err;
-  //                           }
-  //                           else {
-  //                               res.json(result);
-  //                           }
-  //                       });
+    await users.find({email: email}, (err: any, result: any) => {
+            if (err) {
+              console.log("Error! " + err.message);
+              //return err;
+          }
+          else {
+              if (result.length === 0){
+                    var user = new users({ name: name, email: email, password: password, status: status, token: '99999999999', userType: userType });
+                         user.save((err: any) => {
+                            if (err) {
+                                console.log("Error! " + err.message);
+                                return err;
+                            }
+                            else {
+                                res.json(result);
+                            }
+                        });
 
-  //             }else{
-  //               res.json("user exists");
-  //             }
+              }else{
+                res.json("user exists");
+              }
 
-  //         }
-  //   })
+          }
+    })
   
-  // }
+  }
 
 
   // update(req: Request, res: Response): User{
