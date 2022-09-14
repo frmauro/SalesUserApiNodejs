@@ -1,10 +1,10 @@
-import { handleUnaryCall, sendUnaryData, ServerUnaryCall, UntypedHandleCall } from '@grpc/grpc-js';
+import { sendUnaryData, ServerUnaryCall, UntypedHandleCall } from '@grpc/grpc-js';
 import UserMongoose from '../models/DB/userMongosse';
 import { IUserSRVServer } from '../proto/user_grpc_pb';
-import { Empty, User, UserEmailPassword, UserList, UserRequestId } from '../proto/user_pb';
+import { Empty, User, UserEmailPassword, UserList, UserRequestId } from "../proto/user_pb";
 
 
-class GrpcService implements IUserSRVServer{
+class GrpcUserService implements IUserSRVServer{
     [name: string]: UntypedHandleCall;
 
     
@@ -58,17 +58,19 @@ class GrpcService implements IUserSRVServer{
                 }
 
         callback(null, response);
-    });
-    get: (call: ServerUnaryCall<UserRequestId, User>, callback: sendUnaryData<User>) => {
+    })};
+    get(call: ServerUnaryCall<UserRequestId, User>, callback: sendUnaryData<User>): void {
         const user = new User();
-        return callback(null, user);
+        callback(null, user);
     };
-    findByEmailAndPassword: (call: ServerUnaryCall<UserEmailPassword, User>, callback: sendUnaryData<User>) => {};
-    create: (call: ServerUnaryCall<User, User>, callback: sendUnaryData<User>) => {};
-    update: (call: ServerUnaryCall<User, User>, callback: sendUnaryData<User>) => {};
+    findByEmailAndPassword(call: ServerUnaryCall<UserEmailPassword, User>, callback: sendUnaryData<User>): void {};
+    create(call: ServerUnaryCall<User, User>, callback: sendUnaryData<User>): void  {};
+    update(call: ServerUnaryCall<User, User>, callback: sendUnaryData<User>): void {};
     
-  }
-}
+ }
+
+ export default GrpcUserService;
+
 
 
 // import * as grpc from 'grpc';

@@ -5,6 +5,10 @@
 import express from "express";
 import  routes  from './routes/routes';
 import bodyParser from 'body-parser';
+import GrpcUserService from "./grpc/userServiceGrpc";
+import { Server, ServerCredentials } from "@grpc/grpc-js";
+import { UserSRVService } from "./proto/user_grpc_pb";
+import { promisify } from "util";
 
 const app = express();
 
@@ -12,14 +16,27 @@ const app = express();
 //      res.send('Hello express TS');
 // });
 
+const server = new Server();
+server.addService(UserSRVService, new GrpcUserService());
+
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(routes);
-//app.use(userrouter);
+//app.use(server);
 
 const port  = process.env.PORT || 8083;
 app.listen(port, () => {
     console.log('O servidor HTTP esta escutando a porta: ' + port);
+
+    const bindPromise = promisify(server.bindAsync).bind(server)
+
+    bindPromise('0.0.0.0:50051', ServerCredentials.createInsecure())
+      .then((port: any) => {
+        console.log(`listening on ${port}`)
+        server.start()
+      })
+      .catch(console.error)
+
 });
 //console.log('O servidor HTTP esta escutando a porta: ' + port);
 
