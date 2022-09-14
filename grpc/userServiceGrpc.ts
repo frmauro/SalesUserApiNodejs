@@ -1,19 +1,74 @@
-import { handleUnaryCall, ServerUnaryCall } from '@grpc/grpc-js';
+import { handleUnaryCall, sendUnaryData, ServerUnaryCall, UntypedHandleCall } from '@grpc/grpc-js';
+import UserMongoose from '../models/DB/userMongosse';
 import { IUserSRVServer } from '../proto/user_grpc_pb';
 import { Empty, User, UserEmailPassword, UserList, UserRequestId } from '../proto/user_pb';
 
 
-// class GrpcService implements IUserSRVServer{
-//     [name: string]: import("@grpc/grpc-js").UntypedHandleCall;
-//     getAll: (_: ServerUnaryCall<Empty>, callback: sendUnaryData<UserList>): void{
+class GrpcService implements IUserSRVServer{
+    [name: string]: UntypedHandleCall;
 
-//     }
-//     get: handleUnaryCall<UserRequestId, User>;
-//     findByEmailAndPassword: handleUnaryCall<UserEmailPassword, User>;
-//     create: handleUnaryCall<User, User>;
-//     update: handleUnaryCall<User, User>;
     
-// }
+    getAll(_: ServerUnaryCall<Empty, UserList>, callback: sendUnaryData<UserList>): void  {
+
+        const response = new UserList();
+        //userList: Array<any>;
+         const userMongoose = new UserMongoose();
+         const model = userMongoose.getUserModel;
+         const userSchema = userMongoose.getUserSchema;
+         var users = model('users', userSchema, 'users');
+         users.find({}, function(err: any, result: any) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    result.forEach((element: any) => {
+                        let user: User =  {
+                            setId: element.id, setName: element.name, setEmail: element.email, setPassword: element.password, setToken: element.token, setUsertype: element.userType, setStatus: element.status,
+                            getId: function (): string {
+                                throw new Error('Function not implemented.');
+                            },
+                            getName: function (): string {
+                                throw new Error('Function not implemented.');
+                            },
+                            getEmail: function (): string {
+                                throw new Error('Function not implemented.');
+                            },
+                            getPassword: function (): string {
+                                throw new Error('Function not implemented.');
+                            },
+                            getToken: function (): string {
+                                throw new Error('Function not implemented.');
+                            },
+                            getUsertype: function (): string {
+                                throw new Error('Function not implemented.');
+                            },
+                            getStatus: function (): string {
+                                throw new Error('Function not implemented.');
+                            },
+                            serializeBinary: function (): Uint8Array {
+                                throw new Error('Function not implemented.');
+                            },
+                            toObject: function (includeInstance?: boolean): any {
+                                throw new Error('Function not implemented.');
+                            }
+                        };
+                        response.addUsers(user);
+                        //userList.push(user);
+                    });
+                    
+                }
+
+        callback(null, response);
+    });
+    get: (call: ServerUnaryCall<UserRequestId, User>, callback: sendUnaryData<User>) => {
+        const user = new User();
+        return callback(null, user);
+    };
+    findByEmailAndPassword: (call: ServerUnaryCall<UserEmailPassword, User>, callback: sendUnaryData<User>) => {};
+    create: (call: ServerUnaryCall<User, User>, callback: sendUnaryData<User>) => {};
+    update: (call: ServerUnaryCall<User, User>, callback: sendUnaryData<User>) => {};
+    
+  }
+}
 
 
 // import * as grpc from 'grpc';
@@ -161,4 +216,3 @@ import { Empty, User, UserEmailPassword, UserList, UserRequestId } from '../prot
    //server.bind('0.0.0.0:50051', grpc.ServerCredentials.createInsecure())
    //return server;
 //}
-
