@@ -43,3 +43,6 @@ sudo lsof -i :8083
 ## this will list all PID listening on this port, once you have the PID you can terminate it with the following:
 kill -9 {PID}
 
+## command to compile grpc files! The command stay into package.json in the field "compile"
+npm run compile
+

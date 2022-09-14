@@ -1,19 +1,29 @@
+import { handleUnaryCall, ServerUnaryCall } from '@grpc/grpc-js';
+import { IUserSRVServer } from '../proto/user_grpc_pb';
+import { Empty, User, UserEmailPassword, UserList, UserRequestId } from '../proto/user_pb';
 
 
-class GrpcService{
-    PROTO_PATH = "./user.proto";
-    constructor(){
+// class GrpcService implements IUserSRVServer{
+//     [name: string]: import("@grpc/grpc-js").UntypedHandleCall;
+//     getAll: (_: ServerUnaryCall<Empty>, callback: sendUnaryData<UserList>): void{
 
-    }
-}
+//     }
+//     get: handleUnaryCall<UserRequestId, User>;
+//     findByEmailAndPassword: handleUnaryCall<UserEmailPassword, User>;
+//     create: handleUnaryCall<User, User>;
+//     update: handleUnaryCall<User, User>;
+    
+// }
 
-export default GrpcService;
 
+// import * as grpc from 'grpc';
+// import * as protoLoader from '@grpc/proto-loader';
+//import user from '../models/user';
+//const PROTO_PATH = "./user.proto";
 
-// const PROTO_PATH = "./user.proto";
-// var grpc = require('grpc');
-// var protoLoader = require("@grpc/proto-loader");
-// const user = require('../models/user');
+//var grpc = require('grpc');
+//var protoLoader = require("@grpc/proto-loader");
+//const user = require('../models/user');
 
 // var packageDefinition = protoLoader.loadSync(PROTO_PATH, {
 //     keepCase: true,
@@ -53,102 +63,102 @@ export default GrpcService;
 //                });
 
 //     },
-//     GetAll: (call, callback) => {
-//                 var db = app.models.user;
-//                 //console.log(db);
-//                 var users = db.Mongoose.model('users', db.UserSchema, 'users');
-//                 var userList = [];
+    // GetAll: (call, callback) => {
+    //             var db = app.models.user;
+    //             //console.log(db);
+    //             var users = db.Mongoose.model('users', db.UserSchema, 'users');
+    //             var userList = [];
                 
                 
-//                 users.find({}, function(err, result) {
-//                         if (err) {
-//                             console.log(err);
-//                         } else {
-//                             result.forEach(element => {
-//                                 var user =  { id: element.id, name: element.name, email: element.email, password: element.password, token: element.token, userType: element.userType, status: element.status  };
-//                                 userList.push(user);
-//                             });
+    //             users.find({}, function(err, result) {
+    //                     if (err) {
+    //                         console.log(err);
+    //                     } else {
+    //                         result.forEach(element => {
+    //                             var user =  { id: element.id, name: element.name, email: element.email, password: element.password, token: element.token, userType: element.userType, status: element.status  };
+    //                             userList.push(user);
+    //                         });
                             
-//                         }
-//                         callback(null, { users: userList });
-//                 });
+    //                     }
+    //                     callback(null, { users: userList });
+    //             });
 
-//         },
-//         Get: (call, callback) => {
-//             var db = app.models.user;
-//             var users = db.Mongoose.model('users', db.UserSchema, 'users');
-//             var userResult = {}; 
+    //     },
+    //     Get: (call, callback) => {
+    //         var db = app.models.user;
+    //         var users = db.Mongoose.model('users', db.UserSchema, 'users');
+    //         var userResult = {}; 
             
-//             users.find({ _id: call.request.id }, null, { limit: 1 }, function(err, result) {
-//                     if (err) {
-//                         console.log(err);
-//                     } else {
-//                        userResult = { id: result[0].id, name: result[0].name, email: result[0].email, password: result[0].password, token: result[0].token, userType: result[0].userType, status: result[0].status  };
-//                     }
-//                     callback(null,  userResult);
-//             });
+    //         users.find({ _id: call.request.id }, null, { limit: 1 }, function(err, result) {
+    //                 if (err) {
+    //                     console.log(err);
+    //                 } else {
+    //                    userResult = { id: result[0].id, name: result[0].name, email: result[0].email, password: result[0].password, token: result[0].token, userType: result[0].userType, status: result[0].status  };
+    //                 }
+    //                 callback(null,  userResult);
+    //         });
 
-//         },
-//         create: (call, callback) => {
+    //     },
+    //     create: (call, callback) => {
 
-//             var db = app.models.user;
-//             //var db = user;
-//             var users = db.Mongoose.model('users', db.UserSchema, 'users');
-//             var newuser =  { name: call.request.name, email: call.request.email, password: call.request.password, token: 'hjsdf8sd7fsdfshjksdfs87986786', userType: call.request.userType, status: call.request.status  };
+    //         var db = app.models.user;
+    //         //var db = user;
+    //         var users = db.Mongoose.model('users', db.UserSchema, 'users');
+    //         var newuser =  { name: call.request.name, email: call.request.email, password: call.request.password, token: 'hjsdf8sd7fsdfshjksdfs87986786', userType: call.request.userType, status: call.request.status  };
        
-//             users.find({email: call.request.email}, function(err, result){
-//                 if (err) {
-//                     callback(null,  newuser);
-//                 }
-//                 else {
-//                   if (result.length === 0){
-//                             var user = new users(newuser);
-//                             user.save(function (err, newuserdb) {
-//                                 if (err) {
-//                                     return err;
-//                                 }
-//                                 else {
-//                                     callback(null,  newuserdb);
-//                                 }
-//                             });
-//                       }else{
-//                         callback(null,  newuser);
-//                     }
-//                   }
+    //         users.find({email: call.request.email}, function(err, result){
+    //             if (err) {
+    //                 callback(null,  newuser);
+    //             }
+    //             else {
+    //               if (result.length === 0){
+    //                         var user = new users(newuser);
+    //                         user.save(function (err, newuserdb) {
+    //                             if (err) {
+    //                                 return err;
+    //                             }
+    //                             else {
+    //                                 callback(null,  newuserdb);
+    //                             }
+    //                         });
+    //                   }else{
+    //                     callback(null,  newuser);
+    //                 }
+    //               }
     
-//             })
+    //         })
 
-//         },
-//         update: (call, callback) => {
+    //     },
+    //     update: (call, callback) => {
 
-//             var db = app.models.user;
-//             var users = db.Mongoose.model('users', db.UserSchema, 'users');
-//             //console.log(result);
-//             users.findByIdAndUpdate(
-//               // the id of the item to find
-//               call.request.id,
+    //         var db = app.models.user;
+    //         var users = db.Mongoose.model('users', db.UserSchema, 'users');
+    //         //console.log(result);
+    //         users.findByIdAndUpdate(
+    //           // the id of the item to find
+    //           call.request.id,
               
-//               // the change to be made. Mongoose will smartly combine your existing 
-//               // document with this change, which allows for partial updates too
-//               call.request,
+    //           // the change to be made. Mongoose will smartly combine your existing 
+    //           // document with this change, which allows for partial updates too
+    //           call.request,
               
-//               // an option that asks mongoose to return the updated version 
-//               // of the document instead of the pre-updated one.
-//               {new: true},
+    //           // an option that asks mongoose to return the updated version 
+    //           // of the document instead of the pre-updated one.
+    //           {new: true},
               
-//               // the callback function
-//               (err, user) => {
-//               // Handle any possible database errors
-//                   if (err) callback(null,  {});
-//                    callback(null,  user);
-//               }
-//           )
+    //           // the callback function
+    //           (err, user) => {
+    //           // Handle any possible database errors
+    //               if (err) callback(null,  {});
+    //                callback(null,  user);
+    //           }
+    //       )
 
-//         },
-//  })
+    //     },
+ //})
 
 
-//    server.bind('0.0.0.0:50051', grpc.ServerCredentials.createInsecure())
-//    return server;
-// }
+   //server.bind('0.0.0.0:50051', grpc.ServerCredentials.createInsecure())
+   //return server;
+//}
 

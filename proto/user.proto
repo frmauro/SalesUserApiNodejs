@@ -1,7 +1,7 @@
 syntax = "proto3";
 package SalesUserApi;
 
-service UserService {
+service UserSRV {
     rpc GetAll (Empty) returns (UserList) {}
     rpc Get (UserRequestId) returns (User) {}
     rpc FindByEmailAndPassword (UserEmailPassword) returns (User) {}

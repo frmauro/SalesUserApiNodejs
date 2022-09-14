@@ -18,7 +18,9 @@ app.use(routes);
 //app.use(userrouter);
 
 const port  = process.env.PORT || 8083;
-app.listen(port, () => console.log('O servidor HTTP esta escutando a porta: ' + port));
+app.listen(port, () => {
+    console.log('O servidor HTTP esta escutando a porta: ' + port);
+});
 //console.log('O servidor HTTP esta escutando a porta: ' + port);
 
 // export class Index{
