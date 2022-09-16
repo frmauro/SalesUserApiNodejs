@@ -1,10 +1,10 @@
 import { sendUnaryData, ServerUnaryCall, UntypedHandleCall } from '@grpc/grpc-js';
 import UserMongoose from '../models/DB/userMongosse';
-import { IUserSRVServer } from '../proto/user_grpc_pb';
+import { IUserServiceServer } from '../proto/user_grpc_pb';
 import { Empty, User, UserEmailPassword, UserList, UserRequestId } from "../proto/user_pb";
 
 
-class GrpcUserService implements IUserSRVServer{
+class GrpcUserService implements IUserServiceServer{
     [name: string]: UntypedHandleCall;
 
     

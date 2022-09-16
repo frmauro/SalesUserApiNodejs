@@ -60,9 +60,9 @@ function deserialize_SalesUserApi_UserRequestId(buffer_arg) {
 }
 
 
-var UserSRVService = exports.UserSRVService = {
+var UserServiceService = exports.UserServiceService = {
   getAll: {
-    path: '/SalesUserApi.UserSRV/GetAll',
+    path: '/SalesUserApi.UserService/GetAll',
     requestStream: false,
     responseStream: false,
     requestType: user_pb.Empty,
@@ -73,7 +73,7 @@ var UserSRVService = exports.UserSRVService = {
     responseDeserialize: deserialize_SalesUserApi_UserList,
   },
   get: {
-    path: '/SalesUserApi.UserSRV/Get',
+    path: '/SalesUserApi.UserService/Get',
     requestStream: false,
     responseStream: false,
     requestType: user_pb.UserRequestId,
@@ -84,7 +84,7 @@ var UserSRVService = exports.UserSRVService = {
     responseDeserialize: deserialize_SalesUserApi_User,
   },
   findByEmailAndPassword: {
-    path: '/SalesUserApi.UserSRV/FindByEmailAndPassword',
+    path: '/SalesUserApi.UserService/FindByEmailAndPassword',
     requestStream: false,
     responseStream: false,
     requestType: user_pb.UserEmailPassword,
@@ -95,7 +95,7 @@ var UserSRVService = exports.UserSRVService = {
     responseDeserialize: deserialize_SalesUserApi_User,
   },
   create: {
-    path: '/SalesUserApi.UserSRV/Create',
+    path: '/SalesUserApi.UserService/Create',
     requestStream: false,
     responseStream: false,
     requestType: user_pb.User,
@@ -106,7 +106,7 @@ var UserSRVService = exports.UserSRVService = {
     responseDeserialize: deserialize_SalesUserApi_User,
   },
   update: {
-    path: '/SalesUserApi.UserSRV/Update',
+    path: '/SalesUserApi.UserService/Update',
     requestStream: false,
     responseStream: false,
     requestType: user_pb.User,
@@ -118,4 +118,4 @@ var UserSRVService = exports.UserSRVService = {
   },
 };
 
-exports.UserSRVClient = grpc.makeGenericClientConstructor(UserSRVService);
+exports.UserServiceClient = grpc.makeGenericClientConstructor(UserServiceService);
