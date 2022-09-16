@@ -10,47 +10,52 @@ class GrpcUserService implements IUserServiceServer{
     
     getAll(_: ServerUnaryCall<Empty, UserList>, callback: sendUnaryData<UserList>): void  {
 
-        const response = new UserList();
         //userList: Array<any>;
          const userMongoose = new UserMongoose();
          const model = userMongoose.getUserModel;
          const userSchema = userMongoose.getUserSchema;
          var users = model('users', userSchema, 'users');
          users.find({}, function(err: any, result: any) {
+                const response = new UserList();
                 if (err) {
                     console.log(err);
                 } else {
                     result.forEach((element: any) => {
-                        let user: User =  {
-                            setId: element.id, setName: element.name, setEmail: element.email, setPassword: element.password, setToken: element.token, setUsertype: element.userType, setStatus: element.status,
-                            getId: function (): string {
-                                throw new Error('Function not implemented.');
-                            },
-                            getName: function (): string {
-                                throw new Error('Function not implemented.');
-                            },
-                            getEmail: function (): string {
-                                throw new Error('Function not implemented.');
-                            },
-                            getPassword: function (): string {
-                                throw new Error('Function not implemented.');
-                            },
-                            getToken: function (): string {
-                                throw new Error('Function not implemented.');
-                            },
-                            getUsertype: function (): string {
-                                throw new Error('Function not implemented.');
-                            },
-                            getStatus: function (): string {
-                                throw new Error('Function not implemented.');
-                            },
-                            serializeBinary: function (): Uint8Array {
-                                throw new Error('Function not implemented.');
-                            },
-                            toObject: function (includeInstance?: boolean): any {
-                                throw new Error('Function not implemented.');
-                            }
-                        };
+                        let user: User = new User();
+                            user.setId = element.id;
+                            user.setName = element.name;
+                            user.setEmail = element.email;
+                            user.setPassword = element.password;
+                            user.setToken = element.token;
+                            user.setUsertype = element.userType;
+                            user.setStatus = element.status;
+                            // getId: function (): string {
+                            //     throw new Error('Function not implemented.');
+                            // },
+                            // getName: function (): string {
+                            //     throw new Error('Function not implemented.');
+                            // },
+                            // getEmail: function (): string {
+                            //     throw new Error('Function not implemented.');
+                            // },
+                            // getPassword: function (): string {
+                            //     throw new Error('Function not implemented.');
+                            // },
+                            // getToken: function (): string {
+                            //     throw new Error('Function not implemented.');
+                            // },
+                            // getUsertype: function (): string {
+                            //     throw new Error('Function not implemented.');
+                            // },
+                            // getStatus: function (): string {
+                            //     throw new Error('Function not implemented.');
+                            // },
+                            // serializeBinary: function (): Uint8Array {
+                            //     throw new Error('Function not implemented.');
+                            // },
+                            // toObject: function (includeInstance?: boolean): any {
+                            //     throw new Error('Function not implemented.');
+                            // }
                         response.addUsers(user);
                         //userList.push(user);
                     });
